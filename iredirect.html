@@ -345,7 +345,39 @@
   ringFill.style.strokeDasharray  = CIRCUMFERENCE;
   ringFill.style.strokeDashoffset = CIRCUMFERENCE;
 
-  async function startRedirect() {
+  // Turns a raw "q" value into a safe, absolute URL.
+  // - Adds https:// if the scheme is missing (e.g. "example.com" -> "https://example.com")
+  // - Leaves already-absolute URLs (http/https/mailto/tel...) untouched
+  // - Rejects dangerous schemes (javascript:, data:, vbscript:) to avoid XSS
+  function buildDestination(raw) {
+    let value = raw.trim();
+    if (!value) return null;
+
+    // block dangerous schemes outright
+    if (/^\s*(javascript|data|vbscript):/i.test(value)) {
+      return null;
+    }
+
+    // already has a scheme (http:, https:, mailto:, tel:, ftp:, etc.)
+    const hasScheme = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(value) || /^(mailto:|tel:)/i.test(value);
+
+    if (!hasScheme) {
+      value = 'https://' + value;
+    }
+
+    // validate it actually parses as a URL
+    try {
+      const url = new URL(value);
+      if (!/^https?:$/.test(url.protocol) && !/^(mailto:|tel:)$/.test(url.protocol)) {
+        return null;
+      }
+      return url.href;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function startRedirect() {
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
 
@@ -354,27 +386,20 @@
       return;
     }
 
-    try {
-      const res  = await fetch('redirect_data.json');
-      const data = await res.json();
-      const item = data.find(x => x.link === q);
+    const built = buildDestination(q);
 
-      if (!item) {
-        showError('This link was not found or has expired.');
-        return;
-      }
-
-      destinationUrl = item.tolink;
-
-      // show destination
-      destBox.style.display = 'flex';
-      destUrl.textContent = destinationUrl;
-
-      startCountdown();
-
-    } catch (e) {
-      showError('Could not load redirect data. Check your connection.');
+    if (!built) {
+      showError('This link is invalid or not allowed.');
+      return;
     }
+
+    destinationUrl = built;
+
+    // show destination
+    destBox.style.display = 'flex';
+    destUrl.textContent = destinationUrl;
+
+    startCountdown();
   }
 
   function startCountdown() {
