@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0c">
+<title>Trending Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0c;
+    --bg-deep:#000000;
+    --red:#e50914;
+    --ink:#f5f5f1;
+    --muted:#9a9aa2;
+    --line:rgba(245,245,241,0.12);
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html,body{
+    width:100%; height:100%;
+    background:var(--bg-deep);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow:hidden;
+    overscroll-behavior:none;
+  }
+
+  .stage{
+    position:fixed; inset:0;
+    width:100vw; height:100vh; height:100dvh;
+    overflow:hidden;
+    background:var(--bg-deep);
+  }
+
+  /* ---------- grain / vignette ---------- */
+  .vignette{
+    position:absolute; inset:0; z-index:5; pointer-events:none;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.25) 45%, transparent 70%),
+      radial-gradient(ellipse at 50% 0%, rgba(0,0,0,0.75) 0%, transparent 50%),
+      linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.05) 18%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.92) 100%);
+  }
+  .grain{
+    position:absolute; inset:-20%; z-index:6; pointer-events:none;
+    opacity:0.04; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- top brand bar ---------- */
+  .brand{
+    position:absolute; top:0; left:0; right:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:calc(18px + var(--sat)) 20px 14px;
+  }
+  .brand-mark{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:22px; letter-spacing:1.5px;
+    color:var(--ink);
+  }
+  .brand-mark span{ color:var(--red); }
+  .brand-tag{
+    font-size:9.5px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ============ RANDOMIZER (intro) ============ */
+  #randomizer{
+    position:absolute; inset:0; z-index:50;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:var(--bg-deep);
+    transition:opacity .5s ease;
+    padding:0 24px;
+    text-align:center;
+  }
+  .rz-eyebrow{
+    font-size:11px; letter-spacing:4px; text-transform:uppercase;
+    color:var(--muted); margin-bottom:18px; font-weight:600;
+    opacity:0; animation:fadeUp .6s ease forwards .1s;
+  }
+  .rz-reel{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(40px,13vw,80px);
+    letter-spacing:3px;
+    color:var(--ink);
+    line-height:1;
+    position:relative;
+    min-height:1.1em;
+  }
+  .rz-reel .glow{
+    color:var(--red);
+    text-shadow:0 0 40px rgba(229,9,20,0.55);
+  }
+  .rz-bar{
+    width:180px; height:2px; margin-top:28px;
+    background:var(--line); position:relative; overflow:hidden;
+    opacity:0; animation:fadeUp .6s ease forwards .2s;
+  }
+  .rz-bar::after{
+    content:''; position:absolute; left:-40%; top:0; bottom:0; width:40%;
+    background:linear-gradient(90deg,transparent,var(--red),transparent);
+    animation:sweep 1.1s linear infinite;
+  }
+  .rz-status{
+    margin-top:16px; font-size:12px; color:var(--muted);
+    opacity:0; animation:fadeUp .6s ease forwards .3s;
+    min-height:1.2em;
+  }
+  @keyframes sweep{ 0%{ left:-40%; } 100%{ left:100%; } }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+  #randomizer.hide{ opacity:0; pointer-events:none; }
+
+  /* ============ POSTER STAGE ============ */
+  #posterStage{
+    position:absolute; inset:0; z-index:1;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  #posterStage.show{ opacity:1; }
+
+  .poster-layer{
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center 18%;
+    opacity:0;
+    transform:scale(1.06);
+    transition:opacity .9s ease, transform 5s ease;
+    filter:saturate(1.05);
+  }
+  .poster-layer.active{ opacity:1; transform:scale(1); }
+
+  /* ---------- content ---------- */
+  .content{
+    position:absolute; left:0; right:0; bottom:0; z-index:10;
+    padding:0 20px calc(28px + var(--sab));
+  }
+
+  .category-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:5px 12px; border-radius:3px;
+    background:rgba(229,9,20,0.16);
+    border:1px solid rgba(229,9,20,0.5);
+    color:#ff5a63;
+    font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .category-pill::before{
+    content:''; width:5px; height:5px; border-radius:50%;
+    background:var(--red); box-shadow:0 0 8px var(--red);
+  }
+
+  .title-wrap{ overflow:hidden; margin-bottom:20px; }
+  .movie-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(32px,10vw,52px);
+    line-height:0.98;
+    letter-spacing:0.5px;
+    color:var(--ink);
+    text-shadow:0 4px 30px rgba(0,0,0,0.6);
+  }
+
+  .actions{ display:flex; align-items:stretch; gap:10px; }
+
+  .btn-watch{
+    flex:1;
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    background:var(--ink); color:#111;
+    border:none; padding:15px 18px;
+    font-size:14.5px; font-weight:800; letter-spacing:0.3px;
+    border-radius:5px; cursor:pointer;
+    text-decoration:none;
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+    box-shadow:0 8px 22px rgba(0,0,0,0.35);
+  }
+  .btn-watch:active{ transform:scale(0.97); }
+  .btn-watch:hover{ background:var(--red); color:#fff; }
+  .btn-watch svg{ width:17px; height:17px; flex-shrink:0; }
+
+  .btn-shuffle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:50px; flex-shrink:0;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.22);
+    color:var(--ink);
+    border-radius:5px;
+    cursor:pointer;
+    backdrop-filter:blur(6px);
+    transition:background .15s ease, transform .15s ease;
+  }
+  .btn-shuffle:active{ transform:scale(0.93); }
+  .btn-shuffle svg{ width:19px; height:19px; transition:transform .5s ease; }
+  .btn-shuffle.spin svg{ transform:rotate(360deg); }
+
+  /* ---------- progress dashes ---------- */
+  .dashes{
+    position:absolute; top:calc(58px + var(--sat)); left:20px; right:20px; z-index:20;
+    display:flex; gap:4px;
+  }
+  .dash{
+    flex:1; height:2.5px; border-radius:2px;
+    background:rgba(255,255,255,0.18);
+    overflow:hidden; position:relative;
+  }
+  .dash i{ position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--ink); display:block; }
+  .dash.done i{ width:100%; background:var(--red); }
+  .dash.active i{ animation:fill 4.2s linear forwards; }
+  @keyframes fill{ from{ width:0%; } to{ width:100%; } }
+
+  /* ---------- error state ---------- */
+  .rz-error{
+    margin-top:18px; font-size:12.5px; color:#ff8a8a;
+    max-width:280px; line-height:1.5;
+  }
+  .retry-btn{
+    margin-top:16px; padding:10px 20px; font-size:13px; font-weight:700;
+    background:var(--red); color:#fff; border:none; border-radius:5px; cursor:pointer;
+  }
+
+  @media (min-width:640px){
+    .stage{ max-width:480px; left:50%; transform:translateX(-50%); box-shadow:0 0 60px rgba(0,0,0,0.6); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .poster-layer{ transition:opacity .4s ease; }
+    .rz-bar::after{ animation:none; }
+    .btn-shuffle.spin svg{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="brand">
+    <div class="brand-mark">TREND<span>FLIX</span></div>
+    <div class="brand-tag">This Week</div>
+  </div>
+
+  <!-- Randomizer intro / loading -->
+  <div id="randomizer">
+    <div class="rz-eyebrow">Picking something for you</div>
+    <div class="rz-reel" id="rzReel">Loading</div>
+    <div class="rz-bar"></div>
+    <div class="rz-status" id="rzStatus">Fetching trending data…</div>
+  </div>
+
+  <!-- Poster carousel -->
+  <div id="posterStage"></div>
+
+  <div class="dashes" id="dashes"></div>
+
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <div class="content">
+    <div class="category-pill" id="categoryPill">Movies</div>
+    <div class="title-wrap">
+      <div class="movie-title" id="movieTitle">—</div>
+    </div>
+    <div class="actions">
+      <a class="btn-watch" id="watchBtn" href="https://appgallery.huawei.com/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Watch Now
+      </a>
+      <button class="btn-shuffle" id="shuffleBtn" aria-label="Shuffle category">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+          <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+          <line x1="4" y1="4" x2="9" y2="9"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ===================== CONFIG ===================== */
+const DATA_URL = "https://beye-mohammed.github.io/ikhan-trending/data/trending.json";
+const WATCH_URL = "https://appgallery.huawei.com/";
+const CATEGORY_LABELS = { movies: "Movies", tv_series: "TV Series", anime: "Anime" };
+const ROTATE_MS = 4200;
+
+/* ===================== STATE ===================== */
+let TRENDING = null;
+let currentList = [];
+let currentIndex = 0;
+let rotateTimer = null;
+
+/* ===================== FETCH DATA ===================== */
+async function fetchTrendingData(){
+  const res = await fetch(DATA_URL, { cache: "no-store" });
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const json = await res.json();
+
+  // Normalize + keep only categories that actually have entries
+  const normalized = {};
+  Object.keys(CATEGORY_LABELS).forEach(key => {
+    const list = Array.isArray(json[key]) ? json[key].filter(it => it && it.title && it.poster) : [];
+    if(list.length) normalized[key] = list;
+  });
+  return normalized;
+}
+
+/* ===================== RANDOMIZER INTRO ===================== */
+function runRandomizer(availableKeys, onDone){
+  const reel = document.getElementById('rzReel');
+  document.getElementById('rzStatus').textContent = '';
+  let step = 0;
+  const totalSteps = 14;
+  let delay = 70;
+
+  function tick(){
+    const key = availableKeys[step % availableKeys.length];
+    reel.textContent = CATEGORY_LABELS[key];
+    reel.className = 'rz-reel';
+    step++;
+
+    if(step >= totalSteps){
+      const finalKey = availableKeys[Math.floor(Math.random() * availableKeys.length)];
+      reel.innerHTML = `<span class="glow">${CATEGORY_LABELS[finalKey]}</span>`;
+      setTimeout(() => onDone(finalKey), 500);
+      return;
+    }
+    delay += 12;
+    setTimeout(tick, delay);
+  }
+  tick();
+}
+
+/* ===================== POSTER STAGE ===================== */
+function buildLayers(container, list){
+  container.innerHTML = '';
+  list.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'poster-layer';
+    div.style.backgroundImage = `url("${item.poster}")`;
+    if(i === 0) div.classList.add('active');
+    container.appendChild(div);
+  });
+}
+
+function buildDashes(container, count){
+  container.innerHTML = '';
+  for(let i = 0; i < count; i++){
+    const d = document.createElement('div');
+    d.className = 'dash';
+    d.innerHTML = '<i></i>';
+    container.appendChild(d);
+  }
+}
+
+function updateDashes(activeIndex){
+  const dashes = document.querySelectorAll('#dashes .dash');
+  dashes.forEach((d, i) => {
+    d.classList.remove('active','done');
+    const bar = d.querySelector('i');
+    bar.style.animation = 'none';
+    bar.style.width = '0%';
+    if(i < activeIndex) d.classList.add('done');
+    if(i === activeIndex){
+      d.classList.add('active');
+      void bar.offsetWidth;
+      bar.style.animation = '';
+    }
+  });
+}
+
+function showPoster(index){
+  const layers = document.querySelectorAll('#posterStage .poster-layer');
+  layers.forEach(l => l.classList.remove('active'));
+  layers[index].classList.add('active');
+
+  const item = currentList[index];
+  const titleEl = document.getElementById('movieTitle');
+  titleEl.style.opacity = 0;
+  titleEl.style.transform = 'translateY(8px)';
+  setTimeout(() => {
+    titleEl.textContent = item.title;
+    titleEl.style.transition = 'opacity .4s ease, transform .4s ease';
+    titleEl.style.opacity = 1;
+    titleEl.style.transform = 'translateY(0)';
+  }, 160);
+
+  updateDashes(index);
+}
+
+function startRotation(){
+  clearInterval(rotateTimer);
+  if(currentList.length <= 1) return;
+  rotateTimer = setInterval(() => {
+    currentIndex = (currentIndex + 1) % currentList.length;
+    showPoster(currentIndex);
+  }, ROTATE_MS);
+}
+
+function loadCategory(key){
+  currentList = TRENDING[key] || [];
+  currentIndex = 0;
+
+  document.getElementById('categoryPill').textContent = CATEGORY_LABELS[key];
+  document.getElementById('watchBtn').href = WATCH_URL;
+
+  const stage = document.getElementById('posterStage');
+  buildLayers(stage, currentList);
+  buildDashes(document.getElementById('dashes'), currentList.length);
+  showPoster(0);
+  startRotation();
+
+  stage.classList.add('show');
+}
+
+function showError(message){
+  document.getElementById('rzReel').textContent = 'Oops';
+  document.getElementById('rzStatus').innerHTML =
+    `<div class="rz-error">${message}</div><button class="retry-btn" id="retryBtn">Try Again</button>`;
+  document.getElementById('retryBtn').addEventListener('click', init);
+}
+
+/* ===================== INIT ===================== */
+async function init(){
+  const rz = document.getElementById('randomizer');
+  rz.classList.remove('hide');
+  rz.style.opacity = 1;
+  rz.style.pointerEvents = 'auto';
+  document.getElementById('rzReel').textContent = 'Loading';
+  document.getElementById('rzStatus').textContent = 'Fetching trending data…';
+  document.getElementById('posterStage').classList.remove('show');
+  clearInterval(rotateTimer);
+
+  try{
+    TRENDING = await fetchTrendingData();
+    const availableKeys = Object.keys(TRENDING);
+
+    if(!availableKeys.length){
+      showError('No trending data is available right now.');
+      return;
+    }
+
+    runRandomizer(availableKeys, (finalKey) => {
+      rz.classList.add('hide');
+      loadCategory(finalKey);
+    });
+  }catch(err){
+    console.error(err);
+    showError('Could not load trending data. Check your connection and try again.');
+  }
+}
+
+window.addEventListener('load', init);
+
+document.getElementById('shuffleBtn').addEventListener('click', (e) => {
+  if(!TRENDING) return;
+  const btn = e.currentTarget;
+  btn.classList.add('spin');
+  setTimeout(() => btn.classList.remove('spin'), 500);
+
+  const availableKeys = Object.keys(TRENDING);
+  if(!availableKeys.length) return;
+
+  document.getElementById('posterStage').classList.remove('show');
+  const rz = document.getElementById('randomizer');
+  rz.classList.remove('hide');
+  rz.style.opacity = 1;
+  rz.style.pointerEvents = 'auto';
+  document.getElementById('rzStatus').textContent = '';
+  clearInterval(rotateTimer);
+
+  setTimeout(() => {
+    runRandomizer(availableKeys, (finalKey) => {
+      rz.classList.add('hide');
+      loadCategory(finalKey);
+    });
+  }, 50);
+});
+</script>
+
+</body>
+</html>
