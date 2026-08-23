@@ -92,9 +92,9 @@
     "interstitialType": [
       {
          "title": "Hi StreamPlus",
-        "contentView": "https://ikouk-studio.netlify.app/HiPromote/tmdb_trending.html",
+        "contentView": "https://appgallery.huawei.com/app/C116767699",
         "description": "StreamPlus Trending Promote",
-        "contentUrl": "https://appgallery.huawei.com/app/C116767699"
+        "contentUrl": "https://ikouk-studio.netlify.app/HiPromote/tmdb_trending.html"
       },
       {
         "title": "Monetag Full-Page Interstitial",
