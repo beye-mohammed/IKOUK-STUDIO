@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Streamplus — Discover Tonight</title>
+    <title>Streamplus — Tonight</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -225,6 +225,7 @@
         .ticket::before{left:-11px;}
         .ticket::after{right:-11px;}
         .ticket-thumb{
+          position:relative;
           flex:0 0 78px;
           width:78px;aspect-ratio:2/3;
           border-radius:14px;overflow:hidden;
@@ -232,7 +233,12 @@
           border:1px solid var(--glass-border);
           background:#151519;
         }
-        .ticket-thumb img{width:100%;height:100%;object-fit:cover;}
+        .ticket-thumb img{
+          width:100%;height:100%;object-fit:cover;
+          opacity:0;transition:opacity .4s var(--ease);
+        }
+        .ticket-thumb img.img-loaded{opacity:1;}
+        .ticket-thumb .poster-fallback{position:absolute;inset:0;}
         .ticket-divider{
           width:0;border-left:2px dashed rgba(255,255,255,.16);
           margin:2px 2px;
@@ -319,14 +325,33 @@
         }
         .poster-img-wrap img.img-loaded{opacity:1;}
         .poster-img-wrap.img-error img{display:none;}
+        .poster-img-wrap.img-loaded .poster-fallback{opacity:0;}
         .poster-fallback{
           position:absolute;inset:0;
           display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
           background:linear-gradient(160deg,#1a1a1f,#0c0c0f);
           color:var(--gray-dim);
+          transition:opacity .4s var(--ease);
+          overflow:hidden;
         }
-        .poster-fallback svg{width:26px;height:26px;opacity:.5;}
-        .poster-fallback span{font-size:.68rem;letter-spacing:.05em;text-align:center;padding:0 10px;}
+        .poster-fallback svg{width:26px;height:26px;opacity:.5;position:relative;z-index:1;}
+        .poster-fallback span{font-size:.68rem;letter-spacing:.05em;text-align:center;padding:0 10px;position:relative;z-index:1;}
+        /* Shimmer shown only while the image is still loading (not yet loaded, not errored) */
+        .poster-fallback::before{
+          content:"";
+          position:absolute;inset:0;
+          background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.06) 50%, transparent 70%);
+          background-size:200% 100%;
+          animation:shimmer 1.6s ease-in-out infinite;
+        }
+        .poster-img-wrap.img-loaded .poster-fallback::before,
+        .poster-img-wrap.img-error .poster-fallback::before{
+          animation:none;background:none;
+        }
+        @keyframes shimmer{
+          from{background-position:200% 0;}
+          to{background-position:-200% 0;}
+        }
 
         .poster-glow{
           position:absolute;inset:0;
@@ -393,13 +418,13 @@
 <div id="loading-screen">
     <div class="load-logo"><span class="play">▶</span>Streamplus</div>
     <div class="load-ring"></div>
-    <div class="load-text">Discovering something amazing…</div>
+    <div class="load-text" aria-live="polite">Discovering something amazing…</div>
 </div>
 
 <div id="error-screen">
     <div class="load-logo"><span class="play">▶</span>Streamplus</div>
     <div class="error-title">Something went wrong</div>
-    <div class="error-sub">We couldn't load today's recommendations. Please check your connection and try again.</div>
+    <div class="error-sub" id="error-message">We couldn't load today's recommendations. Please check your connection and try again.</div>
     <button class="btn-retry" id="retry-btn">TRY AGAIN</button>
 </div>
 
@@ -444,9 +469,13 @@
       "use strict";
 
       var DATA_URL = "https://beye-mohammed.github.io/ikhan-trending/data/trending.json";
+      var FETCH_TIMEOUT_MS = 10000;
+      // TMDB returns relative poster paths like "/abc123.jpg" — they need this prefix.
+      var TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
       var loadingEl = document.getElementById('loading-screen');
       var errorEl = document.getElementById('error-screen');
+      var errorMessageEl = document.getElementById('error-message');
       var appEl = document.getElementById('app');
       var heroTitleEl = document.getElementById('hero-title');
       var featuredSectionEl = document.getElementById('featured-section');
@@ -481,10 +510,22 @@
         return a;
       }
 
+      // Resolve whatever the JSON gives us into a real, fetchable URL.
+      // Handles: full URLs, TMDB-style relative paths ("/abc.jpg"), and empty values.
+      function resolvePosterUrl(raw){
+        if (!raw || typeof raw !== 'string') return "";
+        var trimmed = raw.trim();
+        if (!trimmed) return "";
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        if (trimmed.charAt(0) === '/') return TMDB_IMAGE_BASE + trimmed;
+        return trimmed;
+      }
+
       function normalizeItem(raw){
         raw = raw || {};
         var title = raw.title || raw.name || raw.original_title || raw.original_name || "Untitled";
-        var poster = raw.poster || raw.poster_path || raw.image || raw.image_url || raw.thumbnail || "";
+        var posterRaw = raw.poster || raw.poster_path || raw.image || raw.image_url || raw.thumbnail || "";
+        var poster = resolvePosterUrl(posterRaw);
         var rating = raw.rating || raw.vote_average || raw.score || null;
         if (rating !== null && typeof rating === 'number') rating = Math.round(rating * 10) / 10;
         var year = raw.year || null;
@@ -516,6 +557,13 @@
       var starSvg = '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>';
       var filmSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/><line x1="3" y1="9" x2="7" y2="9"/><line x1="3" y1="15" x2="7" y2="15"/><line x1="17" y1="9" x2="21" y2="9"/><line x1="17" y1="15" x2="21" y2="15"/></svg>';
 
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, function(c){
+          return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+        });
+      }
+      function escapeAttr(str){ return escapeHtml(str); }
+
       function renderFeatured(item, categoryLabel){
         var metaBits = [];
         if (item.year) metaBits.push('<span>' + escapeHtml(item.year) + '</span>');
@@ -525,7 +573,7 @@
           '<div class="featured-bg" style="background-image:url(\'' + escapeAttr(item.poster) + '\')"></div>' +
           '<div class="featured-scrim"></div>' +
           '<div class="ticket">' +
-            '<div class="ticket-thumb"><img src="' + escapeAttr(item.poster) + '" alt="" loading="lazy"></div>' +
+            '<div class="ticket-thumb" id="featured-thumb"></div>' +
             '<div class="ticket-divider"></div>' +
             '<div class="ticket-info">' +
               '<div class="ticket-label">Tonight\u2019s Pick &middot; ' + escapeHtml(categoryLabel) + '</div>' +
@@ -537,14 +585,32 @@
               '<div class="ticket-tagline">Watch something worth your time.</div>' +
             '</div>' +
           '</div>';
-      }
 
-      function escapeHtml(str){
-        return String(str).replace(/[&<>"']/g, function(c){
-          return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
-        });
+        // Build the thumb image the same resilient way as the grid cards
+        // (fallback + load/error handling), instead of a bare <img> with
+        // no failure state.
+        var thumbWrap = document.getElementById('featured-thumb');
+        var fallback = document.createElement('div');
+        fallback.className = 'poster-fallback';
+        fallback.innerHTML = filmSvg + '<span>' + escapeHtml(item.title) + '</span>';
+
+        var img = document.createElement('img');
+        img.loading = 'eager';
+        img.alt = item.title;
+
+        function markLoaded(){ img.classList.add('img-loaded'); }
+        function markError(){ thumbWrap.classList.add('img-error'); }
+
+        img.addEventListener('load', markLoaded);
+        img.addEventListener('error', markError);
+        img.src = item.poster;
+        if (img.complete){
+          if (img.naturalWidth > 0) markLoaded(); else markError();
+        }
+
+        thumbWrap.appendChild(fallback);
+        thumbWrap.appendChild(img);
       }
-      function escapeAttr(str){ return escapeHtml(str); }
 
       function buildPosterCard(item, globalIndex, columnIndex){
         var card = document.createElement('article');
@@ -571,20 +637,29 @@
         var img = document.createElement('img');
         img.loading = 'lazy';
         img.alt = item.title;
-        img.referrerPolicy = 'no-referrer';
+        // NOTE: intentionally NOT setting referrerPolicy="no-referrer" here.
+        // Some poster CDNs (including TMDB in certain configs) reject
+        // requests that arrive with no referrer at all, which was silently
+        // failing every grid image while the featured thumb (no policy set)
+        // loaded fine. Leave the default referrer behavior in place.
 
-        function markLoaded(){ img.classList.add('img-loaded'); }
+        function markLoaded(){ img.classList.add('img-loaded'); imgWrap.classList.add('img-loaded'); }
         function markError(){ imgWrap.classList.add('img-error'); }
 
         // Attach listeners BEFORE setting src, otherwise a cached/instant image
         // can fire "load" before the handler exists and the poster stays hidden.
         img.addEventListener('load', markLoaded);
         img.addEventListener('error', markError);
-        img.src = item.poster;
+
+        if (item.poster){
+          img.src = item.poster;
+        } else {
+          markError();
+        }
 
         // Safety net: some browsers resolve cached images synchronously and
         // never (re)fire "load" once a listener is attached late/at all.
-        if (img.complete){
+        if (img.complete && item.poster){
           if (img.naturalWidth > 0) markLoaded();
           else markError();
         }
@@ -642,7 +717,7 @@
       function render(categories){
         currentCategories = categories;
         var pool = categories.filter(function(c){ return c.items.length > 0; });
-        if (pool.length === 0){ showError(); return; }
+        if (pool.length === 0){ showError('No trending titles were found in today\u2019s data.'); return; }
 
         var selected = pool[Math.floor(Math.random() * pool.length)];
         heroTitleEl.textContent = 'Trending ' + selected.label;
@@ -664,17 +739,29 @@
         appEl.classList.remove('visible');
       }
 
-      function showError(){
+      function showError(message){
+        if (message) errorMessageEl.textContent = message;
         loadingEl.classList.add('hidden');
         appEl.classList.remove('visible');
         errorEl.classList.add('visible');
       }
 
+      function fetchWithTimeout(url, ms){
+        var controller = ('AbortController' in window) ? new AbortController() : null;
+        var timer = controller ? setTimeout(function(){ controller.abort(); }, ms) : null;
+        return fetch(url, {
+          cache: 'no-store',
+          signal: controller ? controller.signal : undefined
+        }).finally(function(){
+          if (timer) clearTimeout(timer);
+        });
+      }
+
       function fetchData(){
         showLoading();
-        fetch(DATA_URL, { cache: 'no-store' })
+        fetchWithTimeout(DATA_URL, FETCH_TIMEOUT_MS)
           .then(function(res){
-            if (!res.ok) throw new Error('Network response was not ok');
+            if (!res.ok) throw new Error('Network response was not ok (' + res.status + ')');
             return res.json();
           })
           .then(function(data){
@@ -682,8 +769,11 @@
             if (categories.length === 0) throw new Error('No categories found');
             setTimeout(function(){ render(categories); }, 300);
           })
-          .catch(function(){
-            showError();
+          .catch(function(err){
+            var message = (err && err.name === 'AbortError')
+              ? 'The request took too long. Please check your connection and try again.'
+              : 'We couldn\u2019t load today\u2019s recommendations. Please check your connection and try again.';
+            showError(message);
           });
       }
 
