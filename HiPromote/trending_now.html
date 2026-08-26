@@ -237,10 +237,10 @@
   position: absolute; /* يضمن ظهور الصورة فوق الخلفية البديلة */
   inset: 0;
   z-index: 2;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  opacity: 0; 
+  opacity: 0;
   transition: opacity .4s var(--ease);
 }
 
@@ -249,7 +249,7 @@
 }
 
 .ticket-thumb .poster-fallback {
-  position: absolute; 
+  position: absolute;
   inset: 0;
   z-index: 1;
 }
@@ -258,10 +258,10 @@
 .ticket-thumb.img-loaded .poster-fallback {
   opacity: 0;
 }
-        
 
 
-        
+
+
         .ticket-divider{
           width:0;border-left:2px dashed rgba(255,255,255,.16);
           margin:2px 2px;
@@ -493,8 +493,10 @@
 
       var DATA_URL = "https://beye-mohammed.github.io/ikhan-trending/data/trending.json";
       var FETCH_TIMEOUT_MS = 10000;
-      // TMDB returns relative poster paths like "/abc123.jpg" — they need this prefix.
       var TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
+
+      // 1. إضافة الرابط المطلوب هنا
+      var APP_LINK = "http://appgallery.huawei.com/app/C118650869";
 
       var loadingEl = document.getElementById('loading-screen');
       var errorEl = document.getElementById('error-screen');
@@ -533,8 +535,6 @@
         return a;
       }
 
-      // Resolve whatever the JSON gives us into a real, fetchable URL.
-      // Handles: full URLs, TMDB-style relative paths ("/abc.jpg"), and empty values.
       function resolvePosterUrl(raw){
         if (!raw || typeof raw !== 'string') return "";
         var trimmed = raw.trim();
@@ -609,9 +609,12 @@
             '</div>' +
           '</div>';
 
-        // Build the thumb image the same resilient way as the grid cards
-        // (fallback + load/error handling), instead of a bare <img> with
-        // no failure state.
+        // 2. جعل البطاقة العلوية قابلة للضغط لتفتح الرابط
+        featuredSectionEl.style.cursor = 'pointer';
+        featuredSectionEl.onclick = function() {
+            window.location.href = APP_LINK;
+        };
+
         var thumbWrap = document.getElementById('featured-thumb');
         var fallback = document.createElement('div');
         fallback.className = 'poster-fallback';
@@ -621,11 +624,11 @@
         img.loading = 'eager';
         img.alt = item.title;
 
-       function markLoaded(){ 
-      img.classList.add('img-loaded'); 
-      thumbWrap.classList.add('img-loaded'); /* هذا السطر سيفعل كود الـ CSS الجديد */
+        function markLoaded(){
+            img.classList.add('img-loaded');
+            thumbWrap.classList.add('img-loaded');
         }
-          
+
         function markError(){ thumbWrap.classList.add('img-error'); }
 
         img.addEventListener('load', markLoaded);
@@ -642,6 +645,11 @@
       function buildPosterCard(item, globalIndex, columnIndex){
         var card = document.createElement('article');
         card.className = 'poster-card';
+
+        // 3. جعل كل بطاقة فيلم تفتح الرابط عند الضغط
+        card.onclick = function() {
+            window.location.href = APP_LINK;
+        };
 
         var isTall = Math.random() < 0.32;
         if (isTall) card.classList.add('size-tall');
@@ -664,17 +672,10 @@
         var img = document.createElement('img');
         img.loading = 'lazy';
         img.alt = item.title;
-        // NOTE: intentionally NOT setting referrerPolicy="no-referrer" here.
-        // Some poster CDNs (including TMDB in certain configs) reject
-        // requests that arrive with no referrer at all, which was silently
-        // failing every grid image while the featured thumb (no policy set)
-        // loaded fine. Leave the default referrer behavior in place.
 
         function markLoaded(){ img.classList.add('img-loaded'); imgWrap.classList.add('img-loaded'); }
         function markError(){ imgWrap.classList.add('img-error'); }
 
-        // Attach listeners BEFORE setting src, otherwise a cached/instant image
-        // can fire "load" before the handler exists and the poster stays hidden.
         img.addEventListener('load', markLoaded);
         img.addEventListener('error', markError);
 
@@ -684,8 +685,6 @@
           markError();
         }
 
-        // Safety net: some browsers resolve cached images synchronously and
-        // never (re)fire "load" once a listener is attached late/at all.
         if (img.complete && item.poster){
           if (img.naturalWidth > 0) markLoaded();
           else markError();
@@ -804,36 +803,20 @@
           });
       }
 
+      // 4. تكملة الكود المقطوع وإضافة حدث زر Watch Now
       retryBtn.addEventListener('click', fetchData);
 
-      shuffleBtn.addEventListener('click', function(){
-        if (!currentCategories) return;
-        shuffleBtn.style.transform = 'rotate(340deg)';
-        setTimeout(function(){ shuffleBtn.style.transform = ''; }, 300);
-        render(currentCategories);
+      shuffleBtn.addEventListener('click', function() {
+          if (currentCategories) render(currentCategories);
       });
 
-      watchNowBtn.addEventListener('click', function(){
-        featuredSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      watchNowBtn.addEventListener('click', function() {
+          window.location.href = APP_LINK;
       });
 
-      var lastBpCols = null;
-      var resizeTimer = null;
-      window.addEventListener('resize', function(){
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function(){
-          if (!currentCategories) return;
-          var bp = getBreakpoint();
-          if (bp.columns !== lastBpCols){
-            lastBpCols = bp.columns;
-            var pool = currentCategories.filter(function(c){ return c.items.length > 0; });
-            var current = pool.find(function(c){ return heroTitleEl.textContent.indexOf(c.label) !== -1; }) || pool[0];
-            if (current) buildCollage(current.items, current.label);
-          }
-        }, 250);
-      });
-
+      // تشغيل الدالة لجلب البيانات عند فتح الصفحة
       fetchData();
+
     })();
 </script>
 </body>
