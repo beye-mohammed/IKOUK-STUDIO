@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Streamplus — Discover Tonight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+          --bg:#08080A;
+          --bg-alt:#0d0d10;
+          --red:#FF3048;
+          --red-deep:#8f0e26;
+          --red-glow:rgba(255,48,72,.38);
+          --white:#F5F5F7;
+          --gray:#9c9ca8;
+          --gray-dim:#6d6d78;
+          --glass-bg:rgba(255,255,255,.045);
+          --glass-bg-strong:rgba(255,255,255,.07);
+          --glass-border:rgba(255,255,255,.09);
+          --radius-lg:22px;
+          --radius-md:16px;
+          --ease:cubic-bezier(.22,1,.36,1);
+        }
+
+        *{box-sizing:border-box;}
+        html,body{margin:0;padding:0;}
+        body{
+          background:var(--bg);
+          color:var(--white);
+          font-family:'Manrope',system-ui,sans-serif;
+          min-height:100vh;
+          overflow-x:hidden;
+          -webkit-font-smoothing:antialiased;
+        }
+        img{max-width:100%;display:block;}
+        button{font-family:inherit;}
+        ::selection{background:var(--red);color:#fff;}
+
+        a:focus-visible, button:focus-visible{
+          outline:2px solid var(--red);
+          outline-offset:3px;
+          border-radius:8px;
+        }
+
+        /* ---------- Ambient background ---------- */
+        .ambient{
+          position:fixed;
+          inset:0;
+          z-index:-2;
+          overflow:hidden;
+          background:var(--bg);
+        }
+        .ambient::before,
+        .ambient::after{
+          content:"";
+          position:absolute;
+          border-radius:50%;
+          filter:blur(90px);
+          opacity:.55;
+          will-change:transform;
+        }
+        .ambient::before{
+          width:60vmax;height:60vmax;
+          top:-24vmax;right:-18vmax;
+          background:radial-gradient(circle, rgba(255,48,72,.55), rgba(255,48,72,0) 70%);
+          animation:driftA 22s ease-in-out infinite alternate;
+        }
+        .ambient::after{
+          width:55vmax;height:55vmax;
+          bottom:-26vmax;left:-16vmax;
+          background:radial-gradient(circle, rgba(70,60,150,.28), rgba(70,60,150,0) 70%);
+          animation:driftB 26s ease-in-out infinite alternate;
+        }
+        .vignette{
+          position:fixed;inset:0;z-index:-1;pointer-events:none;
+          box-shadow:inset 0 0 22vmax 4vmax rgba(0,0,0,.75);
+        }
+        @keyframes driftA{ from{transform:translate(0,0);} to{transform:translate(-6vmax,4vmax);} }
+        @keyframes driftB{ from{transform:translate(0,0);} to{transform:translate(5vmax,-3vmax);} }
+
+        /* ---------- Loading screen ---------- */
+        #loading-screen{
+          position:fixed;inset:0;z-index:100;
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          background:var(--bg);
+          gap:22px;
+          transition:opacity .5s var(--ease), visibility .5s var(--ease);
+        }
+        #loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+        .load-logo{
+          font-family:'Bebas Neue',sans-serif;
+          font-size:clamp(2rem,6vw,2.8rem);
+          letter-spacing:.06em;
+          color:var(--white);
+        }
+        .load-logo .play{color:var(--red);margin-right:.15em;}
+        .load-ring{
+          width:46px;height:46px;
+          border-radius:50%;
+          border:3px solid rgba(255,48,72,.18);
+          border-top-color:var(--red);
+          animation:spin 1s linear infinite;
+        }
+        .load-text{color:var(--gray);font-size:.92rem;letter-spacing:.02em;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        /* ---------- Error screen ---------- */
+        #error-screen{
+          position:fixed;inset:0;z-index:99;
+          display:none;flex-direction:column;align-items:center;justify-content:center;
+          text-align:center;padding:32px;background:var(--bg);
+          gap:14px;
+        }
+        #error-screen.visible{display:flex;}
+        .error-title{font-size:1.3rem;font-weight:800;}
+        .error-sub{color:var(--gray);max-width:340px;font-size:.95rem;line-height:1.5;}
+        .btn-retry{
+          margin-top:10px;
+          background:linear-gradient(135deg,var(--red),var(--red-deep));
+          color:#fff;border:none;padding:13px 30px;border-radius:999px;
+          font-weight:700;letter-spacing:.03em;font-size:.85rem;cursor:pointer;
+          box-shadow:0 8px 24px var(--red-glow);
+          transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+        }
+        .btn-retry:hover{transform:translateY(-2px);box-shadow:0 12px 30px var(--red-glow);}
+        .btn-retry:active{transform:scale(.96);}
+
+        /* ---------- App shell ---------- */
+        #app{
+          display:none;
+          max-width:1400px;
+          margin:0 auto;
+          padding:0 20px 120px;
+        }
+        #app.visible{display:block;}
+
+        /* ---------- Header ---------- */
+        header{
+          display:flex;align-items:center;justify-content:space-between;
+          padding:22px 2px 8px;
+        }
+        .logo{
+          font-family:'Bebas Neue',sans-serif;
+          font-size:clamp(1.4rem,3.4vw,1.7rem);
+          letter-spacing:.05em;
+          display:flex;align-items:center;gap:6px;
+        }
+        .logo .play{color:var(--red);font-size:.9em;filter:drop-shadow(0 0 10px var(--red-glow));}
+        .icon-btn{
+          width:42px;height:42px;border-radius:50%;
+          background:var(--glass-bg);
+          border:1px solid var(--glass-border);
+          backdrop-filter:blur(14px);
+          display:flex;align-items:center;justify-content:center;
+          cursor:pointer;color:var(--white);
+          transition:background .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease);
+        }
+        .icon-btn:hover{background:var(--glass-bg-strong);border-color:rgba(255,48,72,.4);transform:rotate(20deg);}
+        .icon-btn:active{transform:scale(.9) rotate(20deg);}
+        .icon-btn svg{width:19px;height:19px;}
+
+        /* ---------- Hero ---------- */
+        .hero{padding:34px 2px 10px;}
+        .eyebrow{
+          font-size:.72rem;font-weight:700;letter-spacing:.28em;
+          color:var(--red);text-transform:uppercase;
+          display:flex;align-items:center;gap:10px;
+        }
+        .eyebrow::after{content:"";flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,var(--red),transparent);}
+        .hero h1{
+          font-family:'Bebas Neue',sans-serif;
+          font-size:clamp(2.6rem,8vw,4.6rem);
+          line-height:.98;
+          margin:10px 0 12px;
+          letter-spacing:.01em;
+          background:linear-gradient(135deg,#ffffff 30%, var(--red) 120%);
+          -webkit-background-clip:text;background-clip:text;color:transparent;
+          animation:heroIn .7s var(--ease) both;
+        }
+        .hero p{
+          color:var(--gray);font-size:1rem;max-width:420px;
+          animation:heroIn .7s .1s var(--ease) both;
+        }
+        @keyframes heroIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+        /* ---------- Featured ticket ---------- */
+        .featured{
+          position:relative;
+          margin:30px 0 42px;
+          border-radius:var(--radius-lg);
+          overflow:hidden;
+          isolation:isolate;
+          animation:heroIn .7s .18s var(--ease) both;
+        }
+        .featured-bg{
+          position:absolute;inset:0;z-index:-1;
+          background-size:cover;background-position:center 22%;
+          filter:blur(28px) saturate(1.1) brightness(.55);
+          transform:scale(1.25);
+        }
+        .featured-bg::after{content:"";}
+        .featured-scrim{
+          position:absolute;inset:0;z-index:0;
+          background:linear-gradient(120deg, rgba(8,8,10,.88) 20%, rgba(8,8,10,.55) 70%);
+        }
+        .ticket{
+          position:relative;z-index:1;
+          display:flex;gap:18px;
+          padding:20px;
+          border:1px solid var(--glass-border);
+          background:var(--glass-bg);
+          backdrop-filter:blur(18px);
+          border-radius:var(--radius-lg);
+        }
+        .ticket::before,.ticket::after{
+          content:"";
+          position:absolute;top:50%;transform:translateY(-50%);
+          width:22px;height:22px;border-radius:50%;
+          background:var(--bg);
+          z-index:2;
+        }
+        .ticket::before{left:-11px;}
+        .ticket::after{right:-11px;}
+        .ticket-thumb{
+          flex:0 0 78px;
+          width:78px;aspect-ratio:2/3;
+          border-radius:14px;overflow:hidden;
+          box-shadow:0 10px 26px rgba(0,0,0,.5);
+          border:1px solid var(--glass-border);
+          background:#151519;
+        }
+        .ticket-thumb img{width:100%;height:100%;object-fit:cover;}
+        .ticket-divider{
+          width:0;border-left:2px dashed rgba(255,255,255,.16);
+          margin:2px 2px;
+        }
+        .ticket-info{
+          flex:1;min-width:0;
+          display:flex;flex-direction:column;justify-content:center;gap:6px;
+        }
+        .ticket-label{
+          font-size:.66rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+          color:var(--red);
+        }
+        .ticket-title{
+          font-size:1.2rem;font-weight:800;
+          overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+        }
+        .ticket-meta{
+          display:flex;gap:10px;align-items:center;
+          font-size:.82rem;color:var(--gray);flex-wrap:wrap;
+        }
+        .ticket-rating{color:var(--white);font-weight:700;display:flex;align-items:center;gap:4px;}
+        .ticket-rating svg{width:13px;height:13px;fill:var(--red);}
+        .ticket-tagline{color:var(--gray-dim);font-size:.82rem;margin-top:2px;}
+
+        /* ---------- Collage ---------- */
+        .collage-head{
+          display:flex;align-items:baseline;justify-content:space-between;
+          margin:0 2px 16px;
+        }
+        .collage-head h2{
+          font-size:1rem;font-weight:800;letter-spacing:.02em;
+        }
+        .collage-head span{font-size:.78rem;color:var(--gray-dim);}
+        .collage{
+          display:flex;
+          gap:16px;
+        }
+        .collage-col{
+          flex:1;
+          display:flex;
+          flex-direction:column;
+          gap:16px;
+          min-width:0;
+        }
+
+        .poster-card{
+          position:relative;
+          width:100%;
+          aspect-ratio:2/3;
+          border-radius:19px;
+          overflow:hidden;
+          border:1px solid var(--glass-border);
+          background:#131316;
+          box-shadow:0 10px 24px rgba(0,0,0,.45);
+          opacity:0;
+          transform:translateY(26px);
+          animation:cardIn .6s var(--ease) forwards;
+          transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+          cursor:pointer;
+        }
+        .poster-card.size-tall{aspect-ratio:2/3.35;}
+        .poster-card.rot-l{transform-origin:center;}
+        .poster-card.rot-l{--rot:-2deg;}
+        .poster-card.rot-r{--rot:2deg;}
+        @keyframes cardIn{
+          from{opacity:0;transform:translateY(26px) rotate(0deg);}
+          to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}
+        }
+        .poster-card.card-overlap{margin-top:-30px;}
+
+        @media (hover:hover){
+          .poster-card:hover{
+            transform:translateY(-6px) rotate(0deg) scale(1.035);
+            box-shadow:0 20px 40px rgba(255,48,72,.28);
+            border-color:rgba(255,48,72,.5);
+            z-index:5;
+          }
+        }
+
+        .poster-img-wrap{position:absolute;inset:0;}
+        .poster-img-wrap img{
+          width:100%;height:100%;object-fit:cover;
+          opacity:0;transition:opacity .5s var(--ease);
+        }
+        .poster-img-wrap img.img-loaded{opacity:1;}
+        .poster-img-wrap.img-error img{display:none;}
+        .poster-fallback{
+          position:absolute;inset:0;
+          display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+          background:linear-gradient(160deg,#1a1a1f,#0c0c0f);
+          color:var(--gray-dim);
+        }
+        .poster-fallback svg{width:26px;height:26px;opacity:.5;}
+        .poster-fallback span{font-size:.68rem;letter-spacing:.05em;text-align:center;padding:0 10px;}
+
+        .poster-glow{
+          position:absolute;inset:0;
+          box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+          pointer-events:none;
+        }
+        .poster-overlay{
+          position:absolute;left:0;right:0;bottom:0;
+          padding:16px 12px 12px;
+          background:linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.55) 45%, transparent 100%);
+          pointer-events:none;
+        }
+        .poster-title{
+          font-size:.82rem;font-weight:700;color:var(--white);
+          display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+          line-height:1.25;
+        }
+        .poster-meta{
+          margin-top:5px;display:flex;gap:8px;align-items:center;
+          font-size:.68rem;color:var(--gray);
+        }
+        .poster-meta .rating{color:var(--red);font-weight:700;display:flex;align-items:center;gap:3px;}
+        .poster-meta .rating svg{width:9px;height:9px;fill:var(--red);}
+
+        /* ---------- Watch now button ---------- */
+        /* Mobile-first: base rules below target phones; larger screens are
+           progressively enhanced via the min-width query further down. */
+        .watch-now{
+          position:fixed;
+          left:50%;bottom:18px;
+          transform:translateX(-50%);
+          z-index:50;
+          display:flex;align-items:center;justify-content:center;gap:10px;
+          width:calc(100% - 40px);
+          padding:16px 20px;
+          border:none;border-radius:999px;
+          background:linear-gradient(135deg,var(--red) 0%, var(--red-deep) 100%);
+          color:#fff;font-weight:800;letter-spacing:.05em;font-size:.92rem;
+          box-shadow:0 12px 32px var(--red-glow), 0 0 0 1px rgba(255,255,255,.08) inset;
+          cursor:pointer;
+          transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+          white-space:nowrap;
+        }
+        .watch-now:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 18px 40px var(--red-glow), 0 0 0 1px rgba(255,255,255,.1) inset;}
+        .watch-now:active{transform:translateX(-50%) scale(.95);}
+        .watch-now svg{width:15px;height:15px;fill:#fff;flex-shrink:0;}
+
+        @media (min-width:641px){
+          .watch-now{width:auto;bottom:22px;padding:16px 34px;}
+          .ticket-thumb{flex-basis:96px;width:96px;}
+          #app{padding-bottom:140px;}
+        }
+
+        @media (prefers-reduced-motion:reduce){
+          *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div id="loading-screen">
+    <div class="load-logo"><span class="play">▶</span>Streamplus</div>
+    <div class="load-ring"></div>
+    <div class="load-text">Discovering something amazing…</div>
+</div>
+
+<div id="error-screen">
+    <div class="load-logo"><span class="play">▶</span>Streamplus</div>
+    <div class="error-title">Something went wrong</div>
+    <div class="error-sub">We couldn't load today's recommendations. Please check your connection and try again.</div>
+    <button class="btn-retry" id="retry-btn">TRY AGAIN</button>
+</div>
+
+<div id="app">
+    <header>
+        <div class="logo"><span class="play">▶</span>Streamplus</div>
+        <button class="icon-btn" id="shuffle-btn" aria-label="Shuffle recommendations">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"></polyline>
+                <line x1="4" y1="20" x2="21" y2="3"></line>
+                <polyline points="21 16 21 21 16 21"></polyline>
+                <line x1="15" y1="15" x2="21" y2="21"></line>
+                <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+        </button>
+    </header>
+
+    <section class="hero">
+        <div class="eyebrow">Discover Tonight</div>
+        <h1 id="hero-title">Trending</h1>
+        <p>Your next favorite story is waiting.</p>
+    </section>
+
+    <section class="featured" id="featured-section"></section>
+
+    <section class="collage-section">
+        <div class="collage-head">
+            <h2 id="collage-heading">For you</h2>
+            <span id="collage-count"></span>
+        </div>
+        <div class="collage" id="collage"></div>
+    </section>
+</div>
+
+<button class="watch-now" id="watch-now-btn">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+    WATCH NOW
+</button>
+
+<script>
+    (function(){
+      "use strict";
+
+      var DATA_URL = "https://beye-mohammed.github.io/ikhan-trending/data/trending.json";
+
+      var loadingEl = document.getElementById('loading-screen');
+      var errorEl = document.getElementById('error-screen');
+      var appEl = document.getElementById('app');
+      var heroTitleEl = document.getElementById('hero-title');
+      var featuredSectionEl = document.getElementById('featured-section');
+      var collageEl = document.getElementById('collage');
+      var collageHeadingEl = document.getElementById('collage-heading');
+      var collageCountEl = document.getElementById('collage-count');
+      var retryBtn = document.getElementById('retry-btn');
+      var shuffleBtn = document.getElementById('shuffle-btn');
+      var watchNowBtn = document.getElementById('watch-now-btn');
+
+      var CATEGORY_LABELS = {
+        movies: "Movies",
+        movie: "Movies",
+        tv_series: "TV Shows",
+        tv: "TV Shows",
+        series: "TV Shows",
+        shows: "TV Shows",
+        anime: "Anime"
+      };
+
+      function prettifyKey(key){
+        if (CATEGORY_LABELS[key]) return CATEGORY_LABELS[key];
+        return key.replace(/[_-]/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+      }
+
+      function shuffle(arr){
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      function normalizeItem(raw){
+        raw = raw || {};
+        var title = raw.title || raw.name || raw.original_title || raw.original_name || "Untitled";
+        var poster = raw.poster || raw.poster_path || raw.image || raw.image_url || raw.thumbnail || "";
+        var rating = raw.rating || raw.vote_average || raw.score || null;
+        if (rating !== null && typeof rating === 'number') rating = Math.round(rating * 10) / 10;
+        var year = raw.year || null;
+        if (!year){
+          var dateStr = raw.release_date || raw.first_air_date || raw.date || null;
+          if (dateStr && typeof dateStr === 'string' && dateStr.length >= 4) year = dateStr.slice(0,4);
+        }
+        return { title: title, poster: poster, rating: rating, year: year };
+      }
+
+      function detectCategories(data){
+        var out = [];
+        Object.keys(data || {}).forEach(function(key){
+          if (Array.isArray(data[key]) && data[key].length > 0){
+            out.push({ key: key, label: prettifyKey(key), items: data[key].map(normalizeItem) });
+          }
+        });
+        return out;
+      }
+
+      function getBreakpoint(){
+        var w = window.innerWidth;
+        if (w < 640) return { columns: 2, count: 10 };
+        if (w < 1024) return { columns: 3, count: 13 };
+        if (w < 1440) return { columns: 4, count: 16 };
+        return { columns: 5, count: 18 };
+      }
+
+      var starSvg = '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>';
+      var filmSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/><line x1="3" y1="9" x2="7" y2="9"/><line x1="3" y1="15" x2="7" y2="15"/><line x1="17" y1="9" x2="21" y2="9"/><line x1="17" y1="15" x2="21" y2="15"/></svg>';
+
+      function renderFeatured(item, categoryLabel){
+        var metaBits = [];
+        if (item.year) metaBits.push('<span>' + escapeHtml(item.year) + '</span>');
+        var metaHtml = metaBits.join('<span>&middot;</span>');
+
+        featuredSectionEl.innerHTML =
+          '<div class="featured-bg" style="background-image:url(\'' + escapeAttr(item.poster) + '\')"></div>' +
+          '<div class="featured-scrim"></div>' +
+          '<div class="ticket">' +
+            '<div class="ticket-thumb"><img src="' + escapeAttr(item.poster) + '" alt="" loading="lazy"></div>' +
+            '<div class="ticket-divider"></div>' +
+            '<div class="ticket-info">' +
+              '<div class="ticket-label">Tonight\u2019s Pick &middot; ' + escapeHtml(categoryLabel) + '</div>' +
+              '<div class="ticket-title">' + escapeHtml(item.title) + '</div>' +
+              '<div class="ticket-meta">' +
+                (item.rating ? '<span class="ticket-rating">' + starSvg + escapeHtml(String(item.rating)) + '</span>' : '') +
+                (metaHtml ? '<span>' + metaHtml + '</span>' : '') +
+              '</div>' +
+              '<div class="ticket-tagline">Watch something worth your time.</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, function(c){
+          return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+        });
+      }
+      function escapeAttr(str){ return escapeHtml(str); }
+
+      function buildPosterCard(item, globalIndex, columnIndex){
+        var card = document.createElement('article');
+        card.className = 'poster-card';
+
+        var isTall = Math.random() < 0.32;
+        if (isTall) card.classList.add('size-tall');
+
+        var rotRoll = Math.random();
+        if (rotRoll < 0.22) card.classList.add('rot-l');
+        else if (rotRoll > 0.78) card.classList.add('rot-r');
+
+        if (columnIndex > 0 && Math.random() < 0.22) card.classList.add('card-overlap');
+
+        card.style.animationDelay = Math.min(globalIndex * 45, 480) + 'ms';
+
+        var imgWrap = document.createElement('div');
+        imgWrap.className = 'poster-img-wrap';
+
+        var fallback = document.createElement('div');
+        fallback.className = 'poster-fallback';
+        fallback.innerHTML = filmSvg + '<span>' + escapeHtml(item.title) + '</span>';
+
+        var img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = item.title;
+        img.referrerPolicy = 'no-referrer';
+
+        function markLoaded(){ img.classList.add('img-loaded'); }
+        function markError(){ imgWrap.classList.add('img-error'); }
+
+        // Attach listeners BEFORE setting src, otherwise a cached/instant image
+        // can fire "load" before the handler exists and the poster stays hidden.
+        img.addEventListener('load', markLoaded);
+        img.addEventListener('error', markError);
+        img.src = item.poster;
+
+        // Safety net: some browsers resolve cached images synchronously and
+        // never (re)fire "load" once a listener is attached late/at all.
+        if (img.complete){
+          if (img.naturalWidth > 0) markLoaded();
+          else markError();
+        }
+
+        imgWrap.appendChild(fallback);
+        imgWrap.appendChild(img);
+
+        var glow = document.createElement('div');
+        glow.className = 'poster-glow';
+
+        var overlay = document.createElement('div');
+        overlay.className = 'poster-overlay';
+        var metaHtml = '';
+        if (item.rating || item.year){
+          metaHtml = '<div class="poster-meta">' +
+            (item.rating ? '<span class="rating">' + starSvg + escapeHtml(String(item.rating)) + '</span>' : '') +
+            (item.year ? '<span>' + escapeHtml(item.year) + '</span>' : '') +
+            '</div>';
+        }
+        overlay.innerHTML = '<div class="poster-title">' + escapeHtml(item.title) + '</div>' + metaHtml;
+
+        card.appendChild(imgWrap);
+        card.appendChild(glow);
+        card.appendChild(overlay);
+        return card;
+      }
+
+      function buildCollage(items, categoryLabel){
+        collageEl.innerHTML = '';
+        var bp = getBreakpoint();
+        var count = Math.min(bp.count, items.length);
+        var chosen = shuffle(items).slice(0, count);
+
+        var columns = [];
+        for (var c = 0; c < bp.columns; c++){
+          var colEl = document.createElement('div');
+          colEl.className = 'collage-col';
+          collageEl.appendChild(colEl);
+          columns.push(colEl);
+        }
+
+        chosen.forEach(function(item, idx){
+          var colIdx = idx % bp.columns;
+          var indexWithinCol = columns[colIdx].children.length;
+          var card = buildPosterCard(item, idx, indexWithinCol);
+          columns[colIdx].appendChild(card);
+        });
+
+        collageHeadingEl.textContent = 'More ' + categoryLabel;
+        collageCountEl.textContent = chosen.length + ' titles';
+      }
+
+      var currentCategories = null;
+
+      function render(categories){
+        currentCategories = categories;
+        var pool = categories.filter(function(c){ return c.items.length > 0; });
+        if (pool.length === 0){ showError(); return; }
+
+        var selected = pool[Math.floor(Math.random() * pool.length)];
+        heroTitleEl.textContent = 'Trending ' + selected.label;
+        document.title = 'Streamplus — Trending ' + selected.label;
+
+        var featuredItem = selected.items[Math.floor(Math.random() * selected.items.length)];
+        renderFeatured(featuredItem, selected.label);
+
+        buildCollage(selected.items, selected.label);
+
+        loadingEl.classList.add('hidden');
+        errorEl.classList.remove('visible');
+        appEl.classList.add('visible');
+      }
+
+      function showLoading(){
+        loadingEl.classList.remove('hidden');
+        errorEl.classList.remove('visible');
+        appEl.classList.remove('visible');
+      }
+
+      function showError(){
+        loadingEl.classList.add('hidden');
+        appEl.classList.remove('visible');
+        errorEl.classList.add('visible');
+      }
+
+      function fetchData(){
+        showLoading();
+        fetch(DATA_URL, { cache: 'no-store' })
+          .then(function(res){
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+          })
+          .then(function(data){
+            var categories = detectCategories(data);
+            if (categories.length === 0) throw new Error('No categories found');
+            setTimeout(function(){ render(categories); }, 300);
+          })
+          .catch(function(){
+            showError();
+          });
+      }
+
+      retryBtn.addEventListener('click', fetchData);
+
+      shuffleBtn.addEventListener('click', function(){
+        if (!currentCategories) return;
+        shuffleBtn.style.transform = 'rotate(340deg)';
+        setTimeout(function(){ shuffleBtn.style.transform = ''; }, 300);
+        render(currentCategories);
+      });
+
+      watchNowBtn.addEventListener('click', function(){
+        featuredSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      var lastBpCols = null;
+      var resizeTimer = null;
+      window.addEventListener('resize', function(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function(){
+          if (!currentCategories) return;
+          var bp = getBreakpoint();
+          if (bp.columns !== lastBpCols){
+            lastBpCols = bp.columns;
+            var pool = currentCategories.filter(function(c){ return c.items.length > 0; });
+            var current = pool.find(function(c){ return heroTitleEl.textContent.indexOf(c.label) !== -1; }) || pool[0];
+            if (current) buildCollage(current.items, current.label);
+          }
+        }, 250);
+      });
+
+      fetchData();
+    })();
+</script>
+</body>
+</html>
