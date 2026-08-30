@@ -8,7 +8,37 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+
+  <!-- Multi Tag Ad Script -->
+<script>
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      // 1. تسجيل الـ Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/multitag_sw_ads.js')
+          .then(function(registration) {
+            console.log('Ad SW registered:', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('Ad SW registration failed:', error);
+          });
+      }
+
+      // 2. تحميل سكريبت الـ Tag (طلب الإذن + التفعيل)
+      var adScript = document.createElement('script');
+      adScript.src = 'https://quge5.com/88/tag.min.js';
+      adScript.setAttribute('data-zone', '274799');
+      adScript.async = true;
+      adScript.setAttribute('data-cfasync', 'false');
+      document.head.appendChild(adScript);
+
+    }, 3000); // 3 ثواني تأخير
+  });
+</script>
+<!-- - - - - - - - - - - -->
+  
+  
+  <style>
   :root {
     --bg: #0a0a0c;
     --bg-deep: #000000;
