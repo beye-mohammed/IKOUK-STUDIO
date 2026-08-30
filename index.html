@@ -1,260 +1,392 @@
 <!doctype html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mohamed Bzikouk — Portfolio</title>
-  <meta name="description" content="Mohamed Bzikouk — مطور أندرويد، مصمم تطبيقات موبايل، طالب دراسات إنجليزية — بورتفوليو احترافي" />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-  <style>
-    :root{
-      --bg1:#0f1724;
-      --bg2:#0b1220;
-      --accent1:#7c3aed;
-      --accent2:#06b6d4;
-      --card:#0b1220;
-      --glass: rgba(255,255,255,0.04);
-      --muted: rgba(255,255,255,0.7);
-      color-scheme: dark;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; background: linear-gradient(135deg,var(--bg1),var(--bg2)); color:#fff;}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mohamed Bzikouk — Android Developer</title>
+<meta name="description" content="Mohamed Bzikouk — Independent Android developer based in Morocco. 48+ apps shipped across Google Play and Huawei AppGallery." />
+<link rel="icon" href="itsme.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d13;
+    --bg-elev:#10141c;
+    --bg-elev-2:#141922;
+    --line: rgba(255,255,255,0.09);
+    --line-soft: rgba(255,255,255,0.05);
+    --text:#e7eaf1;
+    --muted:#8891a3;
+    --muted-2:#5d6577;
+    --accent:#3ddc84;      /* android green */
+    --accent-dim: rgba(61,220,132,0.14);
+    --accent2:#5b8cff;     /* signal blue */
+    --accent2-dim: rgba(91,140,255,0.14);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);}
+  body{padding-bottom:44px;} /* room for fixed status bar */
+  ::selection{background:var(--accent-dim);color:var(--text)}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
-    /* Animated gradient background */
-    .gradient-bg{
-      position:fixed;inset:0;z-index:-2;overflow:hidden;
-      background: radial-gradient(800px 400px at 10% 10%, rgba(124,58,237,0.12), transparent 8%),
-                  radial-gradient(600px 300px at 90% 90%, rgba(6,182,212,0.08), transparent 8%);
-      animation: bgshift 12s linear infinite;
-    }
-    @keyframes bgshift{0%{transform:translate(0,0)}50%{transform:translate(-3%,2%);}100%{transform:translate(0,0);} }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  }
 
-    /* layout */
-    .container{max-width:1100px;margin:0 auto;padding:28px;}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .logo{display:flex;align-items:center;gap:12px}
-    .logo .mark{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
-    nav a{color:var(--muted);text-decoration:none;margin-left:18px}
+  /* faint dot-grid backdrop */
+  .grid-bg{position:fixed;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);background-size:26px 26px;mask-image:radial-gradient(circle at 50% 0%, black, transparent 78%);}
 
-    /* hero */
-    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;padding:48px 0}
-    .hero-left h1{font-size:32px;margin:0 0 12px;line-height:1.05;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .subtitle{color:var(--muted);margin:0 0 18px}
-    .tags{display:flex;gap:8px;flex-wrap:wrap}
-    .tag{background:var(--glass);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:13px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
 
-    /* card */
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:14px;padding:18px;backdrop-filter: blur(6px);}
+  /* ---------- nav ---------- */
+  header.nav{position:sticky;top:0;z-index:40;backdrop-filter: blur(10px);background:rgba(10,13,19,0.72);border-bottom:1px solid var(--line-soft);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;max-width:1080px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.02em;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim);}
+  nav.links{display:flex;gap:28px;font-family:var(--mono);font-size:13px;}
+  nav.links a{text-decoration:none;color:var(--muted);position:relative;padding:4px 0;}
+  nav.links a:hover{color:var(--text)}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--accent);transition:width .25s ease;}
+  nav.links a:hover::after{width:100%}
+  @media(max-width:720px){nav.links{display:none}}
 
-    /* projects grid */
-    .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
-    .proj{border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);transition:transform .35s,box-shadow .35s;cursor:pointer}
-    .proj:hover{transform:translateY(-8px);box-shadow:0 14px 40px rgba(2,6,23,0.6)}
-    .proj .thumb{height:180px;background-size:cover;background-position:center}
-    .proj .pbody{padding:12px}
-    .proj h3{margin:0;font-size:16px}
-    .proj p{margin:8px 0 0;color:var(--muted);font-size:14px}
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;}
+  .eyebrow{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.03em;display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .eyebrow .rule{width:26px;height:1px;background:var(--accent);opacity:.7;display:inline-block}
+  h1.headline{font-family:var(--mono);font-weight:700;font-size:clamp(30px,5vw,50px);line-height:1.16;margin:0 0 22px;letter-spacing:-0.01em;max-width:16ch;}
+  h1.headline .cursor{display:inline-block;width:.5em;height:.85em;background:var(--accent);margin-inline-start:4px;transform:translateY(3px);animation:blink 1.1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0}}
+  .lede{font-size:17px;line-height:1.7;color:var(--muted);max-width:56ch;margin:0 0 34px;}
+  .lede b{color:var(--text);font-weight:600}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;}
+  .btn{font-family:var(--mono);font-size:13.5px;font-weight:500;padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .18s ease, border-color .18s ease, background .18s ease;}
+  .btn-primary{background:var(--accent);color:#03150a;font-weight:700;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-2px);}
 
-    /* support */
-    .support{display:flex;flex-direction:column;gap:12px}
-    .btn{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;text-decoration:none;font-weight:600}
+  /* stat badges — CI badge styling */
+  .badges{display:flex;flex-wrap:wrap;gap:10px;}
+  .badge{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--bg-elev);border:1px solid var(--line);border-radius:6px;padding:7px 12px;display:flex;align-items:center;gap:7px;}
+  .badge b{color:var(--text);font-weight:600}
+  .badge .led{width:6px;height:6px;border-radius:50%;background:var(--accent);}
 
-    /* about & contact */
-    .about{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .contact-form input,.contact-form textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white}
-    .footer{margin-top:40px;padding:18px;color:var(--muted);font-size:13px;text-align:center}
+  /* ---------- signature: waterfall diagram ---------- */
+  .signature{margin:64px 0 8px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--bg-elev),var(--bg));overflow:hidden;}
+  .signature-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line-soft);font-family:var(--mono);font-size:12px;color:var(--muted-2);}
+  .signature-head .tabs{display:flex;gap:6px;}
+  .signature-head .tabs span{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block;}
+  .signature-body{padding:26px 20px 30px;}
+  .signature-title{font-family:var(--mono);font-size:13px;color:var(--muted);margin:0 0 22px;}
+  .signature-title b{color:var(--text)}
+  svg.waterfall{width:100%;height:auto;display:block;}
+  .flow-dash{stroke-dasharray:6 8;animation:dash 2.2s linear infinite;}
+  @keyframes dash{to{stroke-dashoffset:-140;}}
+  .node-label{font:600 11px var(--mono);fill:var(--text);}
+  .node-sub{font:400 10px var(--mono);fill:var(--muted-2);}
 
-    /* animations for reveal */
-    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
-    .reveal.visible{opacity:1;transform:none}
+  /* ---------- sections generic ---------- */
+  section{padding:76px 0;border-top:1px solid var(--line-soft);}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:38px;flex-wrap:wrap;}
+  .section-head h2{font-family:var(--mono);font-size:22px;margin:0;font-weight:700;}
+  .section-head .idx{font-family:var(--mono);font-size:12px;color:var(--muted-2);}
+  .section-sub{color:var(--muted);font-size:15px;max-width:60ch;margin:10px 0 0;line-height:1.65;}
 
-    /* responsive */
-    @media(max-width:900px){
-      .hero{grid-template-columns:1fr;}
-      .projects{grid-template-columns:1fr}
-      .about{grid-template-columns:1fr}
-      nav a{margin-left:10px}
-    }
+  /* ---------- projects ---------- */
+  .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  @media(max-width:760px){.projects{grid-template-columns:1fr}}
+  .proj{border:1px solid var(--line);border-radius:12px;padding:22px;background:var(--bg-elev);transition:border-color .2s ease, transform .2s ease;position:relative;}
+  .proj:hover{border-color:var(--accent2);transform:translateY(-3px);}
+  .proj .pname{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0 0 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .proj .pname .arrow{color:var(--muted-2);font-weight:400;transition:transform .2s ease, color .2s ease;}
+  .proj:hover .pname .arrow{color:var(--accent);transform:translate(3px,-3px);}
+  .proj p.desc{color:var(--muted);font-size:13.6px;line-height:1.65;margin:0 0 16px;}
+  .tagrow{display:flex;flex-wrap:wrap;gap:7px;}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--accent2);background:var(--accent2-dim);border-radius:5px;padding:4px 8px;}
 
-    /* small screens */
-    @media(max-width:480px){.container{padding:16px}.logo .mark{width:40px;height:40px}}
-  </style>
+  /* ---------- skills : folder tree ---------- */
+  .tree{font-family:var(--mono);font-size:13.5px;line-height:2.1;color:var(--muted);border:1px solid var(--line);border-radius:12px;background:var(--bg-elev);padding:26px 28px;}
+  .tree .dir{color:var(--accent);font-weight:600;}
+  .tree .branch{color:var(--muted-2);}
+  .tree .leaf{color:var(--text);}
+  .tree .comment{color:var(--muted-2);}
+  .tree-row{white-space:pre-wrap;}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:start;}
+  @media(max-width:720px){.about-grid{grid-template-columns:1fr;}}
+  .portrait{width:100%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bg-elev);}
+  .portrait img{width:100%;height:100%;object-fit:cover;}
+  .about-body p{color:var(--muted);line-height:1.75;font-size:15px;margin:0 0 14px;}
+  .about-body p b{color:var(--text);}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-top:22px;font-family:var(--mono);font-size:12.5px;}
+  .facts div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:8px 0;color:var(--muted);}
+  .facts div b{color:var(--text);font-weight:600}
+
+  /* ---------- contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .contact-card{border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:var(--bg-elev);text-decoration:none;display:flex;align-items:center;gap:14px;transition:border-color .2s ease, transform .2s ease;}
+  .contact-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .contact-card .ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--accent-dim);color:var(--accent);flex-shrink:0;}
+  .contact-card .ico svg{width:19px;height:19px;}
+  .contact-card .clabel{font-family:var(--mono);font-size:11.5px;color:var(--muted-2);margin-bottom:3px;}
+  .contact-card .cvalue{font-size:14px;color:var(--text);font-weight:600;word-break:break-word;}
+
+  footer.site-footer{padding:38px 0 70px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted-2);border-top:1px solid var(--line-soft);}
+
+  /* ---------- fixed IDE status bar (signature motif reinforced) ---------- */
+  .statusbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg-elev-2);border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:32px;}
+  .statusbar .left,.statusbar .right{display:flex;align-items:center;gap:16px;}
+  .statusbar .item{display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .statusbar .led{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);}
+  @media(max-width:640px){.statusbar .hide-sm{display:none}}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+</style>
 </head>
 <body>
-  <div class="gradient-bg" aria-hidden></div>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <div class="mark">MB</div>
-        <div>
-          <div style="font-weight:700">Mohamed Bzikouk</div>
-          <div style="font-size:13px;color:var(--muted)">مطور أندرويد • مصمم تطبيقات موبايل • طالب دراسات إنجليزية</div>
-        </div>
-      </div>
-      <nav>
-        <a href="#projects">مشاريعي</a>
-        <a href="#about">من أنا</a>
-        <a href="#support">ادعمني</a>
-        <a href="#contact">تواصل</a>
-      </nav>
-    </header>
+<div class="grid-bg" aria-hidden="true"></div>
 
-    <main>
-      <section class="hero" style="margin-top:14px">
-        <div class="hero-left">
-          <h1 class="reveal">مرحبًا — أنا Mohamed Bzikouk</h1>
-          <p class="subtitle reveal">مغربي، عمري 20 سنة. مطور أندرويد ومصمم تطبيقات موبايل. طالب في الدراسات الإنجليزية، وأتمتع بخبرة في التعامل مع الأكواد البرمجية.</p>
-          <div class="tags reveal">
-            <span class="tag">Android</span>
-            <span class="tag">UI/UX</span>
-            <span class="tag">Kotlin</span>
-            <span class="tag">Flutter</span>
-            <span class="tag">تصميم تطبيقات</span>
-          </div>
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand"><span class="dot"></span>bzikouk<span style="color:var(--muted-2)">.dev</span></a>
+    <nav class="links">
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#about">about</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
 
-          <div style="margin-top:18px" class="reveal">
-            <a class="btn" href="#projects">عرض المشروعات</a>
-            <a class="btn" href="#contact" style="background:transparent;border:1px solid rgba(255,255,255,0.06);margin-left:10px">تواصل معي</a>
-          </div>
-        </div>
+<main class="wrap" id="top">
 
-        <aside>
-          <div class="card reveal">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700">MB</div>
-              <div>
-                <div style="font-weight:700">Mohamed Bzikouk</div>
-                <div style="color:var(--muted);font-size:13px">مطور أندرويد • مصمم تطبيقات</div>
-              </div>
-            </div>
+  <section class="hero" style="border-top:none;padding-top:64px;">
+    <div class="eyebrow"><span class="rule"></span>// android developer — morocco</div>
+    <h1 class="headline reveal">I build Android apps that keep working when a network fails.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede reveal">I'm <b>Mohamed Bzikouk</b>, an independent Android developer based in Morocco. I've shipped <b>48+ apps</b> across Google Play and Huawei AppGallery — native Kotlin, MVVM architecture, and monetization systems engineered to fail gracefully instead of failing loudly.</p>
 
-            <div style="margin-top:14px;color:var(--muted)">
-              <div>العمر: 20 سنة</div>
-              <div>الجنسيّة: مغربي</div>
-              <div style="margin-top:10px">أتمتّع بخبرة عملية في تطوير تطبيقات الموبايل وتصميم واجهات مستخدم سلسة وعصرية.</div>
-            </div>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#projects">View projects →</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
 
-            <div style="margin-top:14px" class="support">
-              <!-- PayPal link: replace PAYPAL_LINK with your PayPal URL (paypal.me/yourname or PayPal donate link) -->
-              <a id="paypalLink" class="btn" href="https://www.paypal.com/donate" target="_blank" rel="noopener">ادعمني عبر PayPal</a>
-              <a class="btn" href="mailto:you@example.com" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">راسلني</a>
-            </div>
-          </div>
-        </aside>
-      </section>
+    <div class="badges reveal">
+      <span class="badge"><span class="led"></span>apps shipped: <b>48+</b></span>
+      <span class="badge">stores: <b>Google Play · Huawei AppGallery</b></span>
+      <span class="badge">stack: <b>Kotlin · MVVM · XML</b></span>
+      <span class="badge">status: <b>available for work</b></span>
+    </div>
+  </section>
 
-      <section id="projects">
-        <h2 style="margin-top:18px">أفضل 5 مشاريع للموبايل</h2>
-        <p style="color:var(--muted)">هنا عرض لأبرز مشاريعي في تطوير تطبيقات الموبايل. اضغط على أي مشروع لعرض المزيد.</p>
+  <!-- signature element: ad-network waterfall, rendered like an IDE panel -->
+  <div class="signature reveal">
+    <div class="signature-head">
+      <span>ad_waterfall.arch — read only</span>
+      <span class="tabs"><span></span><span></span><span></span></span>
+    </div>
+    <div class="signature-body">
+      <p class="signature-title">What I actually get hired to build: <b>monetization that survives a network going down.</b> One request, three fallback tiers, zero dropped impressions.</p>
+      <svg class="waterfall" viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of an ad request flowing through three fallback tiers: primary network, secondary network, then an in-house fallback SDK.">
+        <!-- request node -->
+        <rect x="10" y="80" width="108" height="40" rx="8" fill="none" stroke="var(--line)"/>
+        <text x="64" y="103" text-anchor="middle" class="node-label">ad request</text>
 
-        <div class="projects" aria-live="polite">
-          <!-- Project 1 -->
-          <article class="proj reveal" onclick="openProject(1)">
-            <div class="thumb" style="background-image:url('https://picsum.photos/seed/p1/800/600')" role="img" aria-label="Project 1 screenshot"></div>
-            <div class="pbody">
-              <h3>Project One — تطبيق تواصل</h3>
-              <p>تطبيق دردشة بمزايا واجهة حديثة وإشعارات فورية. تم تطويره بـ Kotlin وFirebase.</p>
-            </div>
-          </article>
+        <!-- lines -->
+        <path d="M118 100 C 170 100, 170 40, 230 40" fill="none" stroke="var(--accent)" stroke-width="1.6" class="flow-dash"/>
+        <path d="M118 100 C 190 100, 190 100, 230 100" fill="none" stroke="var(--accent2)" stroke-width="1.6" class="flow-dash" style="animation-delay:.5s"/>
+        <path d="M118 100 C 170 100, 170 160, 230 160" fill="none" stroke="#f2b84b" stroke-width="1.6" class="flow-dash" style="animation-delay:1s"/>
 
-          <!-- Project 2 -->
-          <article class="proj reveal" onclick="openProject(2)">
-            <div class="thumb" style="background-image:url('https://picsum.photos/seed/p2/800/600')"></div>
-            <div class="pbody">
-              <h3>Project Two — متجر إلكتروني</h3>
-              <p>تطبيق متجر متكامل بواجهة مستخدم سلسة وتجربة دفع داخل التطبيق.</p>
-            </div>
-          </article>
+        <!-- tier 1 -->
+        <rect x="230" y="20" width="150" height="40" rx="8" fill="var(--accent-dim)" stroke="var(--accent)"/>
+        <text x="305" y="43" text-anchor="middle" class="node-label">primary network</text>
 
-          <!-- Project 3 -->
-          <article class="proj reveal" onclick="openProject(3)">
-            <div class="thumb" style="background-image:url('https://picsum.photos/seed/p3/800/600')"></div>
-            <div class="pbody">
-              <h3>Project Three — تطبيق تعلّم</h3>
-              <p>تطبيق للتعليم والتدريب مع تمارين تفاعلية وتصميم جذاب.</p>
-            </div>
-          </article>
+        <!-- tier 2 -->
+        <rect x="230" y="80" width="150" height="40" rx="8" fill="var(--accent2-dim)" stroke="var(--accent2)"/>
+        <text x="305" y="103" text-anchor="middle" class="node-label">secondary network</text>
 
-          <!-- Project 4 -->
-          <article class="proj reveal" onclick="openProject(4)">
-            <div class="thumb" style="background-image:url('https://picsum.photos/seed/p4/800/600')"></div>
-            <div class="pbody">
-              <h3>Project Four — منتج صحي</h3>
-              <p>تطبيق لإدارة الصحة والتمارين مع تتبع يومي وواجهات تقارير.</p>
-            </div>
-          </article>
+        <!-- tier 3 -->
+        <rect x="230" y="140" width="150" height="40" rx="8" fill="rgba(242,184,75,0.12)" stroke="#f2b84b"/>
+        <text x="305" y="163" text-anchor="middle" class="node-label">in-house fallback SDK</text>
 
-          <!-- Project 5 -->
-          <article class="proj reveal" onclick="openProject(5)">
-            <div class="thumb" style="background-image:url('https://picsum.photos/seed/p5/800/600')"></div>
-            <div class="pbody">
-              <h3>Project Five — أدوات موبايل</h3>
-              <p>مجموعة أدوات مفيدة للمستخدم تتضمن ميزات عملية وأداء سريع.</p>
-            </div>
-          </article>
-        </div>
+        <!-- to result -->
+        <path d="M380 40 C 460 40, 460 100, 540 100" fill="none" stroke="var(--muted-2)" stroke-width="1.2" stroke-dasharray="3 6"/>
+        <path d="M380 100 C 460 100, 460 100, 540 100" fill="none" stroke="var(--muted-2)" stroke-width="1.2" stroke-dasharray="3 6"/>
+        <path d="M380 160 C 460 160, 460 100, 540 100" fill="none" stroke="var(--muted-2)" stroke-width="1.2" stroke-dasharray="3 6"/>
 
-      </section>
-
-      <section id="about" class="about">
-        <div class="card reveal">
-          <h3>عنّي</h3>
-          <p style="color:var(--muted)">اسمي Mohamed Bzikouk، مغربي، أعمل كمطور أندرويد ومصمم تطبيقات الموبايل. أسعى لبناء تجارب مستخدم بسيطة وجذابة تكون سريعة وآمنة. أدرس حاليًا دراسات إنجليزية وأحب تحسين مهاراتي التقنية والتصميمية باستمرار.</p>
-
-          <ul style="color:var(--muted)">
-            <li>اللغات: العربية، الفرنسية (مبتدئ)، الإنجليزية (طالب دراسات)</li>
-            <li>أدوات: Android Studio, Kotlin, Flutter, Figma, Git</li>
-            <li>الهوايات: تصميم واجهات، تحسين تجربة المستخدم، حل المشاكل</li>
-          </ul>
-        </div>
-
-        <div class="card contact-form reveal" id="contact">
-          <h3>تواصل معي</h3>
-          <p style="color:var(--muted)">أرسل رسالة وسأرد عليك بأسرع وقت.</p>
-          <form onsubmit="event.preventDefault();alert('استبدل هذا النموذج بنقطة نهاية حقيقية أو اعطيني بريدك لأوصل الطلبات إليه');">
-            <input type="text" placeholder="اسمك" required />
-            <input type="email" placeholder="بريدك الإلكتروني" required />
-            <textarea rows="4" placeholder="رسالتك" required></textarea>
-            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-              <button class="btn" type="submit">إرسال</button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <footer class="footer">
-        © 2026 Mohamed Bzikouk — مطور أندرويد • مصمم تطبيقات موبايل
-      </footer>
-    </main>
+        <rect x="540" y="80" width="170" height="40" rx="8" fill="none" stroke="var(--accent)"/>
+        <text x="625" y="99" text-anchor="middle" class="node-label">impression served</text>
+        <text x="625" y="112" text-anchor="middle" class="node-sub">0 dropped requests</text>
+      </svg>
+    </div>
   </div>
 
-  <script>
-    // Simple reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, {threshold:0.08});
-    reveals.forEach(r => io.observe(r));
+  <section id="projects">
+    <div class="section-head">
+      <h2>Selected projects</h2>
+      <span class="idx">05 shown / 48 shipped</span>
+    </div>
+    <p class="section-sub">A mix of consumer apps, an in-house SDK, and the tooling that keeps everything else running. Real names, on request I'll share store links.</p>
 
-    // Sample openProject handler: in real case link to project pages or Play Store links
-    function openProject(i){
-      const urls = [
-        'https://example.com/project1',
-        'https://example.com/project2',
-        'https://example.com/project3',
-        'https://example.com/project4',
-        'https://example.com/project5'
-      ];
-      window.open(urls[i-1],'_blank');
-    }
+    <div class="projects">
+      <article class="proj reveal">
+        <h3 class="pname">StreamPlus <span class="arrow">↗</span></h3>
+        <p class="desc">A streaming and media app built around a resilient monetization core — a three-tier ad waterfall that quietly swaps networks instead of showing a blank slot. Paired with a companion web trending page that pulls live data from a TMDB-backed JSON feed on GitHub.</p>
+        <div class="tagrow"><span class="tag">Kotlin</span><span class="tag">MVVM</span><span class="tag">Ad Waterfall</span><span class="tag">GitHub Actions</span></div>
+      </article>
 
-    // Make PayPal link configurable from data attribute or default
-    (function(){
-      const link = document.getElementById('paypalLink');
-      // Replace this with your PayPal.Me link or donate link
-      const PAYPAL_LINK = 'https://www.paypal.com/paypalme/yourname';
-      link.href = PAYPAL_LINK;
-    })();
-  </script>
+      <article class="proj reveal">
+        <h3 class="pname">CubeShooting <span class="arrow">↗</span></h3>
+        <p class="desc">A native Android wrapper around an HTML5 game. I bridged JavaScript and Kotlin so in-game rewards trigger real, lifecycle-safe rewarded ads — no premature navigation, no dropped callbacks.</p>
+        <div class="tagrow"><span class="tag">WebView Bridge</span><span class="tag">JS ↔ Kotlin</span><span class="tag">HMS Ads</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <h3 class="pname">AdsPromote SDK <span class="arrow">↗</span></h3>
+        <p class="desc">A self-promotion ad library I designed and built from scratch — a four-state initialization machine with a pending-action queue and randomized fallback across in-house promotion channels, so my own apps can cross-promote without depending on a third-party network.</p>
+        <div class="tagrow"><span class="tag">Custom SDK</span><span class="tag">Kotlin</span><span class="tag">State Machine</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <h3 class="pname">VistaGallery <span class="arrow">↗</span></h3>
+        <p class="desc">A photo gallery app migrated from Java to Kotlin, consolidating the app-level architecture into a single Application class with integrated push notifications and ad monetization.</p>
+        <div class="tagrow"><span class="tag">Java → Kotlin</span><span class="tag">HMS</span><span class="tag">Notifications</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <h3 class="pname">AppGallery Insight Scraper <span class="arrow">↗</span></h3>
+        <p class="desc">An automated GitHub Actions pipeline using Playwright and BeautifulSoup that tracks app listings across Huawei AppGallery into a structured JSON database — no manual checks required.</p>
+        <div class="tagrow"><span class="tag">Playwright</span><span class="tag">GitHub Actions</span><span class="tag">Automation</span></div>
+      </article>
+
+      <article class="proj reveal" style="display:flex;align-items:center;justify-content:center;text-align:center;">
+        <div>
+          <h3 class="pname" style="justify-content:center;">+43 more</h3>
+          <p class="desc" style="margin:0;">Across streaming, utilities, kids' apps, and tools — published under my Google Play and Huawei AppGallery developer accounts.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <span class="idx">stack.tree</span>
+    </div>
+    <p class="section-sub">Laid out the way I'd structure a real project — because that's genuinely how I think about it.</p>
+
+    <div class="tree reveal">
+      <div class="tree-row"><span class="dir">./android</span></div>
+      <div class="tree-row"><span class="branch">├─</span> <span class="leaf">Kotlin, XML, MVVM architecture</span></div>
+      <div class="tree-row"><span class="branch">├─</span> <span class="leaf">WebView ↔ native JS bridging</span></div>
+      <div class="tree-row"><span class="branch">└─</span> <span class="leaf">Java → Kotlin migrations</span></div>
+      <div class="tree-row" style="margin-top:6px;"><span class="dir">./monetization</span></div>
+      <div class="tree-row"><span class="branch">├─</span> <span class="leaf">Multi-network ad waterfalls</span> <span class="comment">// Petal Ads, Yandex Ads, AdMob</span></div>
+      <div class="tree-row"><span class="branch">└─</span> <span class="leaf">Custom fallback SDKs</span></div>
+      <div class="tree-row" style="margin-top:6px;"><span class="dir">./web</span></div>
+      <div class="tree-row"><span class="branch">├─</span> <span class="leaf">GitHub Pages, Netlify, Blogger</span></div>
+      <div class="tree-row"><span class="branch">└─</span> <span class="leaf">GitHub Actions automation</span></div>
+      <div class="tree-row" style="margin-top:6px;"><span class="dir">./content</span></div>
+      <div class="tree-row"><span class="branch">├─</span> <span class="leaf">App Store Optimization</span></div>
+      <div class="tree-row"><span class="branch">└─</span> <span class="leaf">Arabic-language content & localization</span></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head">
+      <h2>About</h2>
+      <span class="idx">who.md</span>
+    </div>
+    <div class="about-grid">
+      <div class="portrait reveal">
+        <img src="itsme.png" alt="Portrait of Mohamed Bzikouk" loading="lazy" />
+      </div>
+      <div class="about-body reveal">
+        <p>I'm a 20-year-old Android developer from Morocco, currently studying English while building and shipping mobile apps independently. I care less about following a tutorial's shortest path and more about what still works when an ad network times out, a device rotates mid-download, or a WebView loses focus — the parts most portfolios don't talk about.</p>
+        <p>Over the past few years that's meant <b>48+ apps</b> published across Google Play and Huawei AppGallery, a self-built ad SDK, and a handful of automation pipelines that keep my own workflow running without babysitting.</p>
+        <div class="facts">
+          <div>Based in<b>Morocco</b></div>
+          <div>Apps shipped<b>48+</b></div>
+          <div>Primary stack<b>Kotlin · MVVM</b></div>
+          <div>Platforms<b>Play Store · AppGallery</b></div>
+          <div>Languages<b>Arabic · English · French</b></div>
+          <div>Currently<b>Open to work</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head">
+      <h2>Contact</h2>
+      <span class="idx">reach.out()</span>
+    </div>
+    <p class="section-sub">The fastest way to reach me is WhatsApp. For everything else, pick whatever's easiest for you.</p>
+
+    <div class="contact-grid">
+      <a class="contact-card reveal" href="https://wa.me/212613873699" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5 0-.1-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.9 1.2 3.1c.1.2 2.2 3.4 5.4 4.7.8.3 1.4.5 1.8.7.8.2 1.5.2 2 .1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4c1.5.8 3.2 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.1.9.9-3-.2-.3C3.7 14.7 3.2 13.4 3.2 12 3.2 7.1 7.1 3.2 12 3.2S20.8 7.1 20.8 12 16.9 20.2 12 20.2z"/></svg></span>
+        <span><div class="clabel">whatsapp</div><div class="cvalue">+212 613 873 699</div></span>
+      </a>
+
+      <a class="contact-card reveal" href="https://instagram.com/bzikoukmohammed" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></span>
+        <span><div class="clabel">instagram</div><div class="cvalue">@bzikoukmohammed</div></span>
+      </a>
+
+      <a class="contact-card reveal" href="https://github.com/bzikoukmohammed" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.4-1.1-1-1.4-1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.5-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .6 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .3.3.6.8.6 1.6v2.4c0 .3.2.6.7.5 3.9-1.3 6.8-5.1 6.8-9.6C22 6.6 17.5 2 12 2z"/></svg></span>
+        <span><div class="clabel">github</div><div class="cvalue">github.com/bzikoukmohammed</div></span>
+      </a>
+
+      <a class="contact-card reveal" href="https://linkedin.com/in/bzikoukmohammed" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1s2.48 1.1 2.48 2.5zM.4 8.75h4.2V23H.4V8.75zM8.4 8.75h4.02v1.95h.06c.56-1.05 1.93-2.16 3.98-2.16 4.25 0 5.04 2.8 5.04 6.44V23h-4.2v-6.5c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V23H8.4V8.75z"/></svg></span>
+        <span><div class="clabel">linkedin</div><div class="cvalue">linkedin.com/in/bzikoukmohammed</div></span>
+      </a>
+
+      <a class="contact-card reveal" href="mailto:contact@bzikouk.dev">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+        <span><div class="clabel">email</div><div class="cvalue">contact@bzikouk.dev</div></span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  © 2026 Mohamed Bzikouk — Android Developer, Morocco. Built with Kotlin during the day, HTML at night.
+</footer>
+
+<div class="statusbar">
+  <div class="left">
+    <span class="item"><span class="led"></span> main</span>
+    <span class="item hide-sm">Kotlin</span>
+    <span class="item hide-sm">MVVM</span>
+  </div>
+  <div class="right">
+    <span class="item hide-sm">UTF-8</span>
+    <span class="item">Morocco</span>
+    <span class="item">build: passing</span>
+  </div>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.12});
+  reveals.forEach(r=>io.observe(r));
+</script>
+
 </body>
 </html>
