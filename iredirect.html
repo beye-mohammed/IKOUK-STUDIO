@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BEYE Store — Secure Redirect</title>
+
 <!-- Multi Tag Ad Script -->
- <script>
+<script>
   window.addEventListener('load', function() {
     setTimeout(function() {
+      // 1. تسجيل الـ Service Worker
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/multitag_sw_ads.js')
           .then(function(registration) {
@@ -17,10 +19,20 @@
             console.log('Ad SW registration failed:', error);
           });
       }
-    }, 1000); // 1 ثواني تأخير
+
+      // 2. تحميل سكريبت الـ Tag (طلب الإذن + التفعيل)
+      var adScript = document.createElement('script');
+      adScript.src = 'https://quge5.com/88/tag.min.js';
+      adScript.setAttribute('data-zone', '274799');
+      adScript.async = true;
+      adScript.setAttribute('data-cfasync', 'false');
+      document.head.appendChild(adScript);
+
+    }, 3000); // 3 ثواني تأخير
   });
 </script>
 <!-- - - - - - - - - - - -->
+ 
 <style>
   *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
