@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-09-09T10:00:00Z",
+  "apps": [
+    {
+      "packageName": "com.bytedin.streamplus",
+      "notifications": [
+        {
+          "id": "sp_001",
+          "title": "🔥 أفلام جديدة وصلت!",
+          "description": "اكتشف أحدث الأفلام والمسلسلات المضافة اليوم على StreamPlus",
+          "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_new_movies.jpg",
+          "buttonText": "شاهد الآن",
+          "url": "https://streamplus.app/new",
+          "openUrl": true,
+          "isActive": true
+        },
+        {
+          "id": "sp_002",
+          "title": "⭐ محتوى حصري بانتظارك",
+          "description": "افتح التطبيق واكتشف الإضافات الجديدة",
+          "imageUrl": null,
+          "buttonText": "افتح التطبيق",
+          "url": null,
+          "openUrl": false,
+          "isActive": true
+        },
+        {
+          "id": "sp_003",
+          "title": "🎬 لا تفوت هذا العرض",
+          "description": "مجموعة مختارة من أفضل الأفلام هذا الأسبوع",
+          "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_weekly.jpg",
+          "buttonText": "تصفح الآن",
+          "url": "https://streamplus.app/weekly",
+          "openUrl": true,
+          "isActive": true
+        }
+      ]
+    },
+    {
+      "packageName": "com.beyeapps.cubeshootingmerge",
+      "notifications": [
+        {
+          "id": "cs_001",
+          "title": "🎮 تحدي جديد ينتظرك",
+          "description": "هل يمكنك تجاوز أعلى نقاطك السابقة؟",
+          "imageUrl": "https://ikouk-studio.github.io/assets/cubeshooting/notif_challenge.jpg",
+          "buttonText": "العب الآن",
+          "url": null,
+          "openUrl": false,
+          "isActive": true
+        },
+        {
+          "id": "cs_002",
+          "title": "🏆 منافسة الأسبوع",
+          "description": "شارك الآن وكن من الأوائل",
+          "imageUrl": null,
+          "buttonText": "شارك الآن",
+          "url": null,
+          "openUrl": false,
+          "isActive": true
+        }
+      ]
+    }
+  ]
+}
