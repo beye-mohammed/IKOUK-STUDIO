@@ -75,18 +75,14 @@
     "enabled": true,
     "bannerType": [
       {
-        "title": "test Banner ",
-        "contentView": "https://beye-mohammed.github.io/WeJsons/AdsPromote/468X60.gif",
-        "openUrl": "https://beye-mohammed.github.io"
+        "title": "My AppGallery",
+        "contentView": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Appgalley_Banner.html",
+        "openUrl": "https://zikapps.netlify.app"
       },
       {
-        "title": "Monetag Zone Banner",
-        "contentView": "https://beye-mohammed.github.io/WeJsons/AdsPromote/banner-300x250.html"
-      },
-      {
-        "title": "Banner Small Test",
-        "contentView": "https://beye-mohammed.github.io/WeJsons/AdsPromote/banner_testing.html",
-        "openUrl": "google.com"
+        "title": "Open Link",
+        "contentView": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html",
+        "openUrl": "https://zikapps.netlify.app"
       }
     ],
     "interstitialType": [
@@ -97,26 +93,33 @@
         "contentUrl": "https://ikouk-studio.netlify.app/HiPromote/tmdb_trending.html"
       },
       {
-        "title": "Monetag Full-Page Interstitial",
-        "contentView": "https://beye-mohammed.github.io/WeJsons/AdsPromote/test.html",
-        "description": "Full-page ad network embed",
-        "contentUrl": "https://beye-mohammed.github.io/WeJsons/AdsPromote/test.html"
+        "title": "Anime Trending - Interstitial",
+        "contentView": "https://zikapps.netlify.app",
+        "description": "Anime Trending Promote",
+        "contentUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/trending_now.html"
       },
-      {
-        "title": "Inter banner Small Test",
-        "contentView": "google.com",
-        "description": "Banner Small test ",
-        "contentUrl": "https://beye-mohammed.github.io/WeJsons/AdsPromote/banner_testing.html"
+      {    
+        "title": "Open - Interstitial",
+        "contentView": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html",
+        "description": "Open Link Promote",
+        "contentUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html"
       }
       
     ],
     "nativeType": [
       {
-        "title": "Banner Big Testing HTML",
-        "contentView": "https://google.com",
-        "contentUrl": "https://beye-mohammed.github.io/WeJsons/AdsPromote/banner_testing.html",
-        "previewSmall": "https://play-lh.googleusercontent.com/Y--a1Sf1dkwUPj3uh5xshW1Jz13QgoG5ErCLrpAnOrlR4KKGDN7jbwY0BNy6BaiN5EJJyCmyUQA0swQ1tfp6=w832-h470-rw"
+        "title": "Open Link HTML",
+        "contentView": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html",
+        "contentUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html",
+        "previewSmall": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/open_link.html"
+      },
+      {
+        "title": "Appgalley Native HTML",
+        "contentView": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Appgalley_Banner.html",
+        "contentUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Appgalley_Banner.html",
+        "previewSmall": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Appgalley_Banner.html"
       }
+      
     ]
   }
 }
