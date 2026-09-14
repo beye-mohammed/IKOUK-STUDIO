@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BEYE Store — Promo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+          --bg-1:#0D0620;
+          --bg-2:#2A1468;
+          --bg-3:#4A1E8F;
+          --glow-a:#FF3E8E;
+          --glow-b:#5B3BFF;
+          --cta-a:#00F5A0;
+          --cta-b:#00C2FF;
+          --card-border:rgba(255,255,255,.10);
+          --ink:#FFFFFF;
+          --ink-dim:#BDB0EE;
+        }
+
+        *{box-sizing:border-box;}
+
+        html,body{
+          margin:0;
+          padding:0;
+          width:100%;
+          height:100%;
+          background:transparent;
+          font-family:'Poppins','Segoe UI','Helvetica Neue',Arial,sans-serif;
+          -webkit-tap-highlight-color:transparent;
+          overflow:hidden;
+        }
+
+        .stage{
+          width:100%;
+          height:100%;
+          min-height:72px;
+          display:flex;
+          align-items:stretch;
+        }
+
+        .banner{
+          position:relative;
+          width:100%;
+          display:flex;
+          flex-wrap:nowrap;
+          align-items:center;
+          gap:clamp(8px,2.4vw,16px);
+          padding:clamp(7px,1.8vw,13px) clamp(10px,2.6vw,18px);
+          background:
+            radial-gradient(65% 140% at 8% 0%, rgba(255,62,142,.35), transparent 60%),
+            radial-gradient(70% 160% at 100% 120%, rgba(91,59,255,.45), transparent 60%),
+            linear-gradient(115deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+          border:1px solid var(--card-border);
+          border-radius:16px;
+          overflow:hidden;
+          text-decoration:none;
+          opacity:0;
+          transform:translateY(6px);
+          transition:opacity .5s ease, transform .5s ease;
+        }
+
+        .banner.is-ready{
+          opacity:1;
+          transform:translateY(0);
+        }
+
+        .banner::before{
+          content:"";
+          position:absolute;
+          inset:0;
+          background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.10) 45%, transparent 60%);
+          transform:translateX(-120%);
+          animation:sweep 1.6s ease .55s 1;
+          pointer-events:none;
+        }
+
+        @keyframes sweep{
+          to{ transform:translateX(120%); }
+        }
+
+        .ad-tag{
+          position:absolute;
+          top:7px;
+          right:9px;
+          font-size:9px;
+          font-weight:600;
+          letter-spacing:.3px;
+          color:var(--ink-dim);
+          background:rgba(255,255,255,.08);
+          border:1px solid var(--card-border);
+          padding:2px 7px;
+          border-radius:999px;
+          z-index:2;
+        }
+
+        .icon-frame{
+          flex:0 0 auto;
+          width:clamp(44px,12vw,60px);
+          height:clamp(44px,12vw,60px);
+          border-radius:24%;
+          background:#fff;
+          padding:3px;
+          box-shadow:0 6px 18px rgba(0,0,0,.35);
+          display:flex;
+          z-index:1;
+          opacity:0;
+          transform:scale(.75);
+          animation:pop .5s cubic-bezier(.2,1.4,.4,1) .15s forwards;
+        }
+
+        @keyframes pop{
+          to{ opacity:1; transform:scale(1); }
+        }
+
+        .icon-frame img{
+          width:100%;
+          height:100%;
+          border-radius:20%;
+          object-fit:cover;
+          display:block;
+        }
+
+        .info{
+          flex:1 1 auto;
+          min-width:0;
+          display:flex;
+          flex-direction:column;
+          gap:3px;
+          z-index:1;
+        }
+
+        .kind{
+          font-size:clamp(9px,2.2vw,10.5px);
+          font-weight:700;
+          letter-spacing:.6px;
+          color:var(--cta-a);
+          text-transform:uppercase;
+        }
+
+        .name{
+          font-size:clamp(12.5px,3.4vw,16.5px);
+          font-weight:700;
+          color:var(--ink);
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          line-height:1.25;
+        }
+
+        .cta{
+          flex:0 0 auto;
+          position:relative;
+          display:inline-flex;
+          align-items:center;
+          gap:5px;
+          padding:clamp(7px,2vw,11px) clamp(13px,3.6vw,19px);
+          border-radius:11px;
+          background:linear-gradient(120deg, var(--cta-a), var(--cta-b));
+          color:#07182B;
+          font-weight:800;
+          font-size:clamp(11.5px,3vw,14px);
+          letter-spacing:.2px;
+          white-space:nowrap;
+          box-shadow:0 6px 16px rgba(0,194,255,.32);
+          transition:transform .15s ease;
+          z-index:1;
+        }
+
+        .banner:active .cta{
+          transform:scale(.95);
+        }
+
+        .cta svg{
+          width:14px;
+          height:14px;
+          flex:0 0 auto;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .banner, .icon-frame{ transition:none; animation:none; opacity:1; transform:none; }
+          .banner::before{ animation:none; display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="stage">
+    <a id="banner" class="banner" href="#" target="_blank" rel="noopener">
+        <span class="ad-tag">Ad</span>
+
+        <span class="icon-frame">
+      <img id="promo-icon" src="" alt="">
+    </span>
+
+        <span class="info">
+      <span class="kind" id="promo-kind">App</span>
+      <span class="name" id="promo-name">Loading…</span>
+    </span>
+
+        <span class="cta">
+      GET
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v11"/>
+        <path d="M7 11l5 5 5-5"/>
+        <path d="M5 20h14"/>
+      </svg>
+    </span>
+    </a>
+</div>
+
+<script>
+    (function(){
+      // Place data.json next to this file (same root folder). Change the path below if it lives elsewhere.
+      var DATA_URL = '/data.json';
+      var QUEUE_KEY = 'beye_promo_queue_v1';
+      var LAST_KEY  = 'beye_promo_last_v1';
+
+      function shuffle(arr){
+        for (var i = arr.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+        }
+        return arr;
+      }
+
+      function safeParse(str){
+        try { return JSON.parse(str); } catch(e){ return null; }
+      }
+
+      function pickNext(items){
+        var queue = safeParse(localStorage.getItem(QUEUE_KEY)) || [];
+        queue = queue.filter(function(i){ return i >= 0 && i < items.length; });
+
+        if (queue.length === 0){
+          queue = shuffle(items.map(function(_, i){ return i; }));
+          var last = Number(localStorage.getItem(LAST_KEY));
+          if (queue.length > 1 && queue[0] === last){
+            var swapWith = 1 + Math.floor(Math.random() * (queue.length - 1));
+            var t = queue[0]; queue[0] = queue[swapWith]; queue[swapWith] = t;
+          }
+        }
+
+        var nextIndex = queue.shift();
+        localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+        localStorage.setItem(LAST_KEY, String(nextIndex));
+        return items[nextIndex];
+      }
+
+      function render(item){
+        document.getElementById('promo-icon').src = item.icon;
+        document.getElementById('promo-icon').alt = item.name;
+        document.getElementById('promo-name').textContent = item.name;
+        document.getElementById('promo-kind').textContent = item.kind === 'game' ? 'Game' : 'App';
+        var link = document.getElementById('banner');
+        link.href = item.link;
+        link.classList.add('is-ready');
+      }
+
+      fetch(DATA_URL, { cache: 'no-store' })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          var items = []
+            .concat((data.applications || []).map(function(a){ return Object.assign({}, a, { kind: 'app' }); }))
+            .concat((data.games || []).map(function(g){ return Object.assign({}, g, { kind: 'game' }); }));
+
+          if (!items.length) return;
+          render(pickNext(items));
+        })
+        .catch(function(err){
+          console.error('Failed to load promo data:', err);
+        });
+    })();
+</script>
+
+</body>
+</html>
