@@ -275,11 +275,23 @@
     font-size: 11px; color: var(--text-faint);
   }
   .card-footer a { color: var(--red); text-decoration: none; }
+
+  /* full-page iframe */
+  #fullFrame {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    z-index: 9999;
+    background: #fff;
+  }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="wrap" id="wrap">
 
   <div class="brand">
     <div class="brand-logo">
@@ -352,6 +364,9 @@
 
 </div>
 
+<!-- Full-page iframe that replaces the redirect -->
+<iframe id="fullFrame" allowfullscreen referrerpolicy="no-referrer"></iframe>
+
 <script>
   const SECONDS = 10;
   const CIRCUMFERENCE = 2 * Math.PI * 36; // ~226.2
@@ -368,6 +383,8 @@
   const destUrl    = document.getElementById('destUrl');
   const mainTitle  = document.getElementById('mainTitle');
   const mainSub    = document.getElementById('mainSub');
+  const wrap       = document.getElementById('wrap');
+  const fullFrame  = document.getElementById('fullFrame');
 
   ringFill.style.strokeDasharray  = CIRCUMFERENCE;
   ringFill.style.strokeDashoffset = CIRCUMFERENCE;
@@ -488,8 +505,16 @@
     errorBox.classList.add('show');
   }
 
+  // بدل التوجيه (redirect) يتم فتح الوجهة داخل iframe يغطي الصفحة بالكامل
+  function openInFullFrame(url) {
+    fullFrame.src = url;
+    fullFrame.style.display = 'block';
+    wrap.style.display = 'none';
+    document.body.style.padding = '0';
+  }
+
   btn.addEventListener('click', () => {
-    if (destinationUrl) window.location.href = destinationUrl;
+    if (destinationUrl) openInFullFrame(destinationUrl);
   });
 
   startRedirect();
