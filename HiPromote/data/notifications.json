@@ -7,64 +7,65 @@
       "notifications": [
         {
           "id": "sp_001",
-          "title": "🔥 أفلام جديدة وصلت!",
-          "description": "اكتشف أحدث الأفلام والمسلسلات المضافة اليوم على StreamPlus",
+          "title": "🔥 New Movies Have Arrived!",
+          "description": "Discover the latest movies and TV shows added to StreamPlus today",
           "imageUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Images/supernova_image.jpg",
-          "buttonText": "شاهد الآن",
+          "buttonText": "Watch Now",
           "url": "https://streamplus.app/new",
           "openUrl": true,
           "isActive": true
         },
         {
           "id": "sp_002",
-          "title": "⭐ محتوى حصري بانتظارك",
-          "description": "افتح التطبيق واكتشف الإضافات الجديدة",
+          "title": "⭐ Exclusive Content Awaits You",
+          "description": "Open the app and discover the latest additions",
           "imageUrl": null,
-          "buttonText": "افتح التطبيق",
+          "buttonText": "Open the App",
           "url": null,
           "openUrl": false,
           "isActive": true
         },
         {
           "id": "sp_003",
-          "title": "🎬 لا تفوت هذا العرض",
-          "description": "مجموعة مختارة من أفضل الأفلام هذا الأسبوع",
+          "title": "🎬 Don't Miss This Offer",
+          "description": "A curated selection of the best movies this week",
           "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_weekly.jpg",
-          "buttonText": "تصفح الآن",
+          "buttonText": "Browse Now",
           "url": "https://streamplus.app/weekly",
           "openUrl": true,
           "isActive": true
         }
       ]
     },
-    "packageName": "com.example",
+    {
+      "packageName": "com.example",
       "notifications": [
         {
           "id": "sp_001",
-          "title": "🔥 أفلام جديدة وصلت!",
-          "description": "اكتشف أحدث الأفلام والمسلسلات المضافة اليوم على StreamPlus",
+          "title": "🔥 New Movies Have Arrived!",
+          "description": "Discover the latest movies and TV shows added to StreamPlus today",
           "imageUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Images/supernova_image.jpg",
-          "buttonText": "شاهد الآن",
+          "buttonText": "Watch Now",
           "url": "https://streamplus.app/new",
           "openUrl": true,
           "isActive": true
         },
         {
           "id": "sp_002",
-          "title": "⭐ محتوى حصري بانتظارك",
-          "description": "افتح التطبيق واكتشف الإضافات الجديدة",
+          "title": "⭐ Exclusive Content Awaits You",
+          "description": "Open the app and discover the latest additions",
           "imageUrl": null,
-          "buttonText": "افتح التطبيق",
+          "buttonText": "Open the App",
           "url": null,
           "openUrl": false,
           "isActive": true
         },
         {
           "id": "sp_003",
-          "title": "🎬 لا تفوت هذا العرض",
-          "description": "مجموعة مختارة من أفضل الأفلام هذا الأسبوع",
+          "title": "🎬 Don't Miss This Offer",
+          "description": "A curated selection of the best movies this week",
           "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_weekly.jpg",
-          "buttonText": "تصفح الآن",
+          "buttonText": "Browse Now",
           "url": "https://streamplus.app/weekly",
           "openUrl": true,
           "isActive": true
@@ -76,20 +77,20 @@
       "notifications": [
         {
           "id": "cs_001",
-          "title": "🎮 تحدي جديد ينتظرك",
-          "description": "هل يمكنك تجاوز أعلى نقاطك السابقة؟",
+          "title": "🎮 A New Challenge Awaits",
+          "description": "Can you beat your previous high score?",
           "imageUrl": "https://ikouk-studio.github.io/assets/cubeshooting/notif_challenge.jpg",
-          "buttonText": "العب الآن",
+          "buttonText": "Play Now",
           "url": null,
           "openUrl": false,
           "isActive": true
         },
         {
           "id": "cs_002",
-          "title": "🏆 منافسة الأسبوع",
-          "description": "شارك الآن وكن من الأوائل",
+          "title": "🏆 Challenge of the Week",
+          "description": "Join now and be one of the top players",
           "imageUrl": null,
-          "buttonText": "شارك الآن",
+          "buttonText": "Join Now",
           "url": null,
           "openUrl": false,
           "isActive": true
