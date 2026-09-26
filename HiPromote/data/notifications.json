@@ -37,6 +37,40 @@
         }
       ]
     },
+    "packageName": "com.example",
+      "notifications": [
+        {
+          "id": "sp_001",
+          "title": "🔥 أفلام جديدة وصلت!",
+          "description": "اكتشف أحدث الأفلام والمسلسلات المضافة اليوم على StreamPlus",
+          "imageUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Images/supernova_image.jpg",
+          "buttonText": "شاهد الآن",
+          "url": "https://streamplus.app/new",
+          "openUrl": true,
+          "isActive": true
+        },
+        {
+          "id": "sp_002",
+          "title": "⭐ محتوى حصري بانتظارك",
+          "description": "افتح التطبيق واكتشف الإضافات الجديدة",
+          "imageUrl": null,
+          "buttonText": "افتح التطبيق",
+          "url": null,
+          "openUrl": false,
+          "isActive": true
+        },
+        {
+          "id": "sp_003",
+          "title": "🎬 لا تفوت هذا العرض",
+          "description": "مجموعة مختارة من أفضل الأفلام هذا الأسبوع",
+          "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_weekly.jpg",
+          "buttonText": "تصفح الآن",
+          "url": "https://streamplus.app/weekly",
+          "openUrl": true,
+          "isActive": true
+        }
+      ]
+    },
     {
       "packageName": "com.beyeapps.cubeshootingmerge",
       "notifications": [
