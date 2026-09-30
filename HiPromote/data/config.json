@@ -1,0 +1,539 @@
+{
+  "appSettings": {
+    "starterCoins": 150,
+    "currencyName": "Coins",
+    "minWithdrawNotApplicable": true,
+    "adNetworkPriority": ["admob"]
+  },
+  "games": [
+    {
+      "id": "game_temple_run",
+      "title": "Temple Run",
+      "description": "Endless running adventure. Jump, turn and slide past ancient temple obstacles!",
+      "iconUrl": "img_game_temple_run",
+      "type": "webview_html5",
+      "gameUrl": "https://poki.com/en/g/temple-run-2",
+      "coinCost": 50,
+      "isLocked": false,
+      "unlockCoinThreshold": 0,
+      "category": "Action",
+      "playsText": "2.6k Plays",
+      "durationText": "2 MIN",
+      "durationSeconds": 120,
+      "rewardCoins": 10,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_worms_zone",
+      "title": "Worms Zone",
+      "description": "Slither, eat yummy treats and grow into the biggest worm in the arena!",
+      "iconUrl": "img_game_worms_zone",
+      "type": "webview_html5",
+      "gameUrl": "https://worms.zone/",
+      "coinCost": 20,
+      "isLocked": false,
+      "unlockCoinThreshold": 0,
+      "category": "Action",
+      "playsText": "1.4k Plays",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "landscape"
+    },
+    {
+      "id": "game_doomsday",
+      "title": "Doomsday Town",
+      "description": "Survive against hordes of pixel block zombies and build your defense.",
+      "iconUrl": "img_game_doomsday",
+      "type": "webview_html5",
+      "gameUrl": "https://poki.com/",
+      "coinCost": 100,
+      "isLocked": false,
+      "unlockCoinThreshold": 0,
+      "category": "Action",
+      "playsText": "91 Plays",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "landscape"
+    },
+    {
+      "id": "game_2048",
+      "title": "2048 Classic",
+      "description": "Join the numbers and get to the 2048 tile! Addictive brain puzzle.",
+      "iconUrl": "https://play-lh.googleusercontent.com/lg1BBn6UKCUJmAFHCHYC3pGoQNDy2NIhU7bvf3mI91ntCCrc5-9mPNl2wQcuulaSOdtzoC9YIXkmwK87KGe75A=w480-h960-rw",
+      "type": "webview_html5",
+      "gameUrl": "https://play2048.co/",
+      "coinCost": 20,
+      "isLocked": false,
+      "unlockCoinThreshold": 0,
+      "category": "Puzzle",
+      "playsText": "1.2k Plays",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_hextris",
+      "title": "Hextris Hexagon",
+      "description": "Fast-paced puzzle game inspired by Tetris on a hexagonal grid.",
+      "iconUrl": "https://play-lh.googleusercontent.com/lg1BBn6UKCUJmAFHCHYC3pGoQNDy2NIhU7bvf3mI91ntCCrc5-9mPNl2wQcuulaSOdtzoC9YIXkmwK87KGe75A=w480-h960-rw",
+      "type": "webview_html5",
+      "gameUrl": "https://hextris.io/",
+      "coinCost": 30,
+      "isLocked": false,
+      "unlockCoinThreshold": 100,
+      "category": "Arcade",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_snake",
+      "title": "Retro Snake",
+      "description": "Classic retro snake game. Eat apples, grow longer, avoid the walls!",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://playsnake.org/",
+      "coinCost": 25,
+      "isLocked": true,
+      "unlockCoinThreshold": 150,
+      "category": "Classic",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_flappy",
+      "title": "Flappy Wings",
+      "description": "Tap to flap your wings and guide the bird through obstacles.",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://flappybird.io/",
+      "coinCost": 35,
+      "isLocked": true,
+      "unlockCoinThreshold": 200,
+      "category": "Action",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_pacman",
+      "title": "Retro Maze Muncher",
+      "description": "Navigate the labyrinth, collect pellets and dodge the ghosts!",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://freepacman.org/",
+      "coinCost": 40,
+      "isLocked": true,
+      "unlockCoinThreshold": 300,
+      "category": "Retro",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "landscape"
+    },
+    {
+      "id": "game_sudoku",
+      "title": "Sudoku Master",
+      "description": "Test your logic skills with daily numbers sudoku puzzles.",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://sudoku.com/",
+      "coinCost": 20,
+      "isLocked": false,
+      "unlockCoinThreshold": 50,
+      "category": "Brain",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_tictactoe",
+      "title": "Tic Tac Toe Glow",
+      "description": "Play Xs and Os against smart AI with glowing neon visuals.",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://playtictactoe.org/",
+      "coinCost": 15,
+      "isLocked": false,
+      "unlockCoinThreshold": 0,
+      "category": "Casual",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    },
+    {
+      "id": "game_chess",
+      "title": "Chess Puzzles",
+      "description": "Sharpen your tactical chess thinking with rapid tactical puzzles.",
+      "iconUrl": "ic_csm_controller",
+      "type": "webview_html5",
+      "gameUrl": "https://lichess.org/training",
+      "coinCost": 50,
+      "isLocked": true,
+      "unlockCoinThreshold": 400,
+      "category": "Strategy",
+      "durationText": "1 MIN",
+      "durationSeconds": 60,
+      "rewardCoins": 5,
+      "screenOrientation": "portrait"
+    }
+  ],
+  "sections_status": {
+    "spin": true,
+    "scratch": true,
+    "offerwalls": true,
+    "app_offers": true,
+    "visit_to_earn": true,
+    "watch_video": true
+  },
+  "earningMethods": {
+    "app_offers_enabled": true,
+    "watch_rewarded_ad": {
+      "enabled": true,
+      "coinsPerAd": 50,
+      "dailyLimit": 10,
+      "cooldownSeconds": 30
+    },
+    "website_visit": {
+      "enabled": true,
+      "tasks": [
+        {
+          "id": "visit_tech_news",
+          "title": "Explore Tech World",
+          "targetUrl": "https://news.ycombinator.com/",
+          "requiredDurationSeconds": 60,
+          "coinsReward": 40,
+          "dailyLimit": 1
+        },
+        {
+          "id": "visit_wikipedia",
+          "title": "Learn On Wikipedia",
+          "targetUrl": "https://en.wikipedia.org/wiki/Special:Random",
+          "requiredDurationSeconds": 60,
+          "coinsReward": 35,
+          "dailyLimit": 1
+        },
+        {
+          "id": "visit_nature",
+          "title": "Discover Wildlife Facts",
+          "targetUrl": "https://www.nationalgeographic.com/",
+          "requiredDurationSeconds": 60,
+          "coinsReward": 50,
+          "dailyLimit": 1
+        },
+        {
+          "id": "visit_space",
+          "title": "Astronomy Picture of the Day",
+          "targetUrl": "https://apod.nasa.gov/apod/astropix.html",
+          "requiredDurationSeconds": 20,
+          "coinsReward": 45,
+          "dailyLimit": 2
+        }
+      ]
+    },
+    "spin_wheel": {
+      "enabled": true,
+      "spinsPerDay": 5,
+      "cooldownHours": 1,
+      "segments": [
+        { "label": "25 Coins", "coinValue": 25, "probabilityWeight": 30 },
+        { "label": "50 Coins", "coinValue": 50, "probabilityWeight": 25 },
+        { "label": "75 Coins", "coinValue": 75, "probabilityWeight": 18 },
+        { "label": "100 Coins", "coinValue": 100, "probabilityWeight": 14 },
+        { "label": "250 Coins", "coinValue": 250, "probabilityWeight": 8 },
+        { "label": "JACKPOT 500", "coinValue": 500, "probabilityWeight": 5 }
+      ]
+    },
+    "scratch_card": {
+      "enabled": true,
+      "cardsPerDay": 5,
+      "cooldownMinutes": 10,
+      "possibleRewards": [
+        { "label": "20 Coins", "coinValue": 20, "probabilityWeight": 35 },
+        { "label": "40 Coins", "coinValue": 40, "probabilityWeight": 25 },
+        { "label": "80 Coins", "coinValue": 80, "probabilityWeight": 20 },
+        { "label": "150 Coins", "coinValue": 150, "probabilityWeight": 12 },
+        { "label": "300 Coins", "coinValue": 300, "probabilityWeight": 8 }
+      ]
+    },
+    "daily_login_streak": {
+      "day1Reward": 100,
+      "day2Reward": 200,
+      "day3Reward": 300,
+      "day4Reward": 400,
+      "day5Reward": 500,
+      "day6Reward": 600,
+      "day7Reward": 700,
+      "resetOnMiss": false
+    },
+    "daily_tasks": [
+      {
+        "id": "task_sign_in_3",
+        "title": "SIGN IN FOR 3 DAYS",
+        "description": "COMPLETE THIS TASK TO GET 500 COINS.",
+        "coinReward": 500,
+        "taskType": "sign_in_days",
+        "targetCount": 3
+      },
+      {
+        "id": "task_sign_in_15",
+        "title": "SIGN IN FOR 15 DAYS",
+        "description": "COMPLETE THIS TASK TO GET 2000 COINS.",
+        "coinReward": 2000,
+        "taskType": "sign_in_days",
+        "targetCount": 15
+      },
+      {
+        "id": "task_sign_in_30",
+        "title": "SIGN IN FOR 30 DAYS",
+        "description": "COMPLETE THIS TASK TO GET 5000 COINS.",
+        "coinReward": 5000,
+        "taskType": "sign_in_days",
+        "targetCount": 30
+      },
+      {
+        "id": "task_play_game",
+        "title": "ARCADE CHAMPION",
+        "description": "Play any arcade game to earn bonus coins",
+        "coinReward": 100,
+        "taskType": "play_game",
+        "targetCount": 1
+      },
+      {
+        "id": "task_spin_wheel",
+        "title": "LUCKY SPINNER",
+        "description": "Spin the lucky wheel once today",
+        "coinReward": 50,
+        "taskType": "spin_wheel",
+        "targetCount": 1
+      },
+      {
+        "id": "task_scratch_card",
+        "title": "SCRATCH & WIN",
+        "description": "Scratch a lucky mystery card today",
+        "coinReward": 50,
+        "taskType": "scratch_card",
+        "targetCount": 1
+      },
+      {
+        "id": "task_watch_ad",
+        "title": "VIDEO REWARDS",
+        "description": "Watch 2 video clips to earn coins",
+        "coinReward": 100,
+        "taskType": "watch_ads",
+        "targetCount": 2
+      },
+      {
+        "id": "task_visit_site",
+        "title": "WEB SURFER",
+        "description": "Complete 1 website exploration countdown",
+        "coinReward": 50,
+        "taskType": "visit_site",
+        "targetCount": 1
+      }
+    ],
+    "video_tasks": [
+      {
+        "id": "admob_video",
+        "title": "ADMOB",
+        "type": "ad_network",
+        "network": "admob",
+        "coinsReward": 100
+      },
+      {
+        "id": "unity_video",
+        "title": "UNITY AD",
+        "type": "ad_network",
+        "network": "unity",
+        "coinsReward": 100
+      },
+      {
+        "id": "petal_video",
+        "title": "PETAL ADS",
+        "type": "ad_network",
+        "network": "petal",
+        "coinsReward": 150
+      },
+      {
+        "id": "startapp_video",
+        "title": "START.IO",
+        "type": "ad_network",
+        "network": "startapp",
+        "coinsReward": 100
+      },
+      {
+        "id": "yt_video_1",
+        "title": "YOUTUBE VIDEO",
+        "type": "youtube_video",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "coinsReward": 50,
+        "durationSeconds": 30
+      },
+      {
+        "id": "yt_video_2",
+        "title": "TECH HIGHLIGHT",
+        "type": "youtube_video",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "coinsReward": 50,
+        "durationSeconds": 45
+      }
+    ],
+    "app_offers": [
+      {
+        "id": "offer_spotify",
+        "title": "Spotify Music",
+        "packageName": "com.spotify.music",
+        "description": "Stream millions of songs and podcasts",
+        "iconUrl": "https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=w480-h960-rw",
+        "rewardCoins": 400,
+        "category": "Music & Audio",
+        "rating": "4.4 ★",
+        "size": "35 MB",
+        "instructions": "Install Spotify from Google Play Store and verify installation to get +400 Coins directly to your wallet!"
+      },
+      {
+        "id": "offer_adgem",
+        "title": "TikTok App",
+        "packageName": "com.zhiliaoapp.musically",
+        "description": "Watch trending short videos & creators",
+        "iconUrl": "https://play-lh.googleusercontent.com/OS-MggHQlyxMmRACgrbvafae5sq5Os4-Aoqw2HH-OiIPFsZAc-jlPtNO5pnq0BODKnI=w240-h480-rw",
+        "rewardCoins": 350,
+        "category": "Social & Video",
+        "rating": "4.5 ★",
+        "size": "85 MB",
+        "instructions": "Download TikTok from Play Store and tap verify to instantly claim 350 Coins!"
+      },
+      {
+        "id": "offer_tapjoy",
+        "title": "Subway Surfers",
+        "packageName": "com.kiloo.subwaysurf",
+        "description": "Dash as fast as you can in the world tour",
+        "iconUrl": "https://play-lh.googleusercontent.com/LByA2ndpmVoPzg3gL9rhkh6v5nsFeqY_N-jw5k_4tMgyJ0lfd0O4pZg1e8EGM2m37E4=w240-h480-rw",
+        "rewardCoins": 450,
+        "category": "Arcade Game",
+        "rating": "4.6 ★",
+        "size": "98 MB",
+        "instructions": "Install Subway Surfers from Google Play Store and claim your 450 Coins reward!"
+      },
+      {
+        "id": "offer_ironsource",
+        "title": "Duolingo",
+        "packageName": "com.duolingo",
+        "description": "Learn English, Spanish and 40+ languages",
+        "iconUrl": "https://play-lh.googleusercontent.com/sw3r8n2-s2aH4yN2lG_4Tf6t1j_E4-p9p6XQkC6o0A=w240-h480-rw",
+        "rewardCoins": 280,
+        "category": "Education",
+        "rating": "4.7 ★",
+        "size": "45 MB",
+        "instructions": "Install Duolingo from Google Play Store and complete verification for 280 Coins!"
+      },
+      {
+        "id": "offer_cpalead",
+        "title": "Candy Crush Saga",
+        "packageName": "com.king.candycrushsaga",
+        "description": "Match candies in legendary puzzle adventure",
+        "iconUrl": "https://play-lh.googleusercontent.com/A6jM6x_B-Q1KzL98F1pCqH8_x9-r8U5b6V2vA7=w240-h480-rw",
+        "rewardCoins": 500,
+        "category": "Match 3 Game",
+        "rating": "4.6 ★",
+        "size": "88 MB",
+        "instructions": "Install Candy Crush Saga from Play Store and claim 500 Coins directly!"
+      },
+      {
+        "id": "offer_pollfish",
+        "title": "Telegram Messenger",
+        "packageName": "org.telegram.messenger",
+        "description": "Pure instant messaging — fast and secure",
+        "iconUrl": "https://play-lh.googleusercontent.com/ZU9AnVdpqxnrsvvdR8hhEn2PJfZBp0hgn7YXXaFuRhxZphmqeqLRoNnOUio7GJAcTg=w240-h480-rw",
+        "rewardCoins": 200,
+        "category": "Communication",
+        "rating": "4.5 ★",
+        "size": "40 MB",
+        "instructions": "Download Telegram and verify installation to claim 200 Coins!"
+      }
+    ]
+  },
+  "appOffers": [
+    {
+      "id": "offer_spotify",
+      "title": "Spotify Music",
+      "packageName": "com.spotify.music",
+      "description": "Stream millions of songs and podcasts",
+      "iconUrl": "https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=w480-h960-rw",
+      "rewardCoins": 400,
+      "category": "Music & Audio",
+      "rating": "4.4 ★",
+      "size": "35 MB",
+      "instructions": "Install Spotify from Google Play Store and verify installation to get +400 Coins directly to your wallet!"
+    },
+    {
+      "id": "offer_adgem",
+      "title": "TikTok App",
+      "packageName": "com.zhiliaoapp.musically",
+      "description": "Watch trending short videos & creators",
+      "iconUrl": "https://play-lh.googleusercontent.com/OS-MggHQlyxMmRACgrbvafae5sq5Os4-Aoqw2HH-OiIPFsZAc-jlPtNO5pnq0BODKnI=w240-h480-rw",
+      "rewardCoins": 350,
+      "category": "Social & Video",
+      "rating": "4.5 ★",
+      "size": "85 MB",
+      "instructions": "Download TikTok from Play Store and tap verify to instantly claim 350 Coins!"
+    },
+    {
+      "id": "offer_tapjoy",
+      "title": "Subway Surfers",
+      "packageName": "com.kiloo.subwaysurf",
+      "description": "Dash as fast as you can in the world tour",
+      "iconUrl": "https://play-lh.googleusercontent.com/LByA2ndpmVoPzg3gL9rhkh6v5nsFeqY_N-jw5k_4tMgyJ0lfd0O4pZg1e8EGM2m37E4=w240-h480-rw",
+      "rewardCoins": 450,
+      "category": "Arcade Game",
+      "rating": "4.6 ★",
+      "size": "98 MB",
+      "instructions": "Install Subway Surfers from Google Play Store and claim your 450 Coins reward!"
+    },
+    {
+      "id": "offer_ironsource",
+      "title": "Duolingo",
+      "packageName": "com.duolingo",
+      "description": "Learn English, Spanish and 40+ languages",
+      "iconUrl": "https://play-lh.googleusercontent.com/sw3r8n2-s2aH4yN2lG_4Tf6t1j_E4-p9p6XQkC6o0A=w240-h480-rw",
+      "rewardCoins": 280,
+      "category": "Education",
+      "rating": "4.7 ★",
+      "size": "45 MB",
+      "instructions": "Install Duolingo from Google Play Store and complete verification for 280 Coins!"
+    },
+    {
+      "id": "offer_cpalead",
+      "title": "Candy Crush Saga",
+      "packageName": "com.king.candycrushsaga",
+      "description": "Match candies in legendary puzzle adventure",
+      "iconUrl": "https://play-lh.googleusercontent.com/A6jM6x_B-Q1KzL98F1pCqH8_x9-r8U5b6V2vA7=w240-h480-rw",
+      "rewardCoins": 500,
+      "category": "Match 3 Game",
+      "rating": "4.6 ★",
+      "size": "88 MB",
+      "instructions": "Install Candy Crush Saga from Play Store and claim 500 Coins directly!"
+    },
+    {
+      "id": "offer_pollfish",
+      "title": "Telegram Messenger",
+      "packageName": "org.telegram.messenger",
+      "description": "Pure instant messaging — fast and secure",
+      "iconUrl": "https://play-lh.googleusercontent.com/ZU9AnVdpqxnrsvvdR8hhEn2PJfZBp0hgn7YXXaFuRhxZphmqeqLRoNnOUio7GJAcTg=w240-h480-rw",
+      "rewardCoins": 200,
+      "category": "Communication",
+      "rating": "4.5 ★",
+      "size": "40 MB",
+      "instructions": "Download Telegram and verify installation to claim 200 Coins!"
+    }
+  ]
+}
