@@ -3,7 +3,7 @@
     "starterCoins": 150,
     "currencyName": "Coins",
     "minWithdrawNotApplicable": true,
-    "adNetworkPriority": ["admob"]
+    "adNetworkPriority": ["petal"]
   },
   "games": [
     {
@@ -343,20 +343,6 @@
     ],
     "video_tasks": [
       {
-        "id": "admob_video",
-        "title": "ADMOB",
-        "type": "ad_network",
-        "network": "admob",
-        "coinsReward": 100
-      },
-      {
-        "id": "unity_video",
-        "title": "UNITY AD",
-        "type": "ad_network",
-        "network": "unity",
-        "coinsReward": 100
-      },
-      {
         "id": "petal_video",
         "title": "PETAL ADS",
         "type": "ad_network",
@@ -364,10 +350,10 @@
         "coinsReward": 150
       },
       {
-        "id": "startapp_video",
-        "title": "START.IO",
+        "id": "yandex_video",
+        "title": "YANDEX ADS",
         "type": "ad_network",
-        "network": "startapp",
+        "network": "yandex",
         "coinsReward": 100
       },
       {
