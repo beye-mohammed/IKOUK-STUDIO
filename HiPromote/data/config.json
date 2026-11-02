@@ -187,6 +187,7 @@
       "screenOrientation": "portrait"
     }
   ],
+
   "sections_status": {
     "spin": true,
     "scratch": true,
@@ -195,6 +196,7 @@
     "visit_to_earn": true,
     "watch_video": true
   },
+
   "earningMethods": {
     "app_offers_enabled": true,
     "watch_rewarded_ad": {
@@ -448,6 +450,7 @@
       }
     ]
   },
+
   "appOffers": [
     {
       "id": "offer_spotify",
@@ -462,64 +465,64 @@
       "instructions": "Install Spotify from Google Play Store and verify installation to get +400 Coins directly to your wallet!"
     },
     {
-      "id": "offer_adgem",
-      "title": "TikTok App",
-      "packageName": "com.zhiliaoapp.musically",
-      "description": "Watch trending short videos & creators",
-      "iconUrl": "https://play-lh.googleusercontent.com/OS-MggHQlyxMmRACgrbvafae5sq5Os4-Aoqw2HH-OiIPFsZAc-jlPtNO5pnq0BODKnI=w240-h480-rw",
+      "id": "offer_ireader",
+      "title": "iReader : PDF Reader",
+      "packageName": "com.beyeapps.simplepdfviewer",
+      "description": "Simple PDF Reader is exactly what you need!",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/0443563dc7e049c1963661d4df72e55b.png",
       "rewardCoins": 350,
-      "category": "Social & Video",
+      "category": "Tools",
       "rating": "4.5 ★",
-      "size": "85 MB",
-      "instructions": "Download TikTok from Play Store and tap verify to instantly claim 350 Coins!"
+      "size": "43 MB",
+      "instructions": "Download iReader from AppGallery and tap verify to instantly claim Reward !"
     },
     {
-      "id": "offer_tapjoy",
-      "title": "Subway Surfers",
-      "packageName": "com.kiloo.subwaysurf",
-      "description": "Dash as fast as you can in the world tour",
-      "iconUrl": "https://play-lh.googleusercontent.com/LByA2ndpmVoPzg3gL9rhkh6v5nsFeqY_N-jw5k_4tMgyJ0lfd0O4pZg1e8EGM2m37E4=w240-h480-rw",
+      "id": "offer_tankwar",
+      "title": "Tank War : Survival Arena",
+      "packageName": "com.beyeapps.awesometanks",
+      "description": "Fight endless tank battles, upgrade weapons, defeat bosses, survive!",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/f53361a8a04743748453c44900eb1c1c.png",
       "rewardCoins": 450,
-      "category": "Arcade Game",
+      "category": "Action Game",
       "rating": "4.6 ★",
-      "size": "98 MB",
-      "instructions": "Install Subway Surfers from Google Play Store and claim your 450 Coins reward!"
+      "size": "25.54MB",
+      "instructions": "Download Tank War from AppGallery and tap verify to instantly claim Reward !"
     },
     {
-      "id": "offer_ironsource",
-      "title": "Duolingo",
-      "packageName": "com.duolingo",
-      "description": "Learn English, Spanish and 40+ languages",
-      "iconUrl": "https://play-lh.googleusercontent.com/sw3r8n2-s2aH4yN2lG_4Tf6t1j_E4-p9p6XQkC6o0A=w240-h480-rw",
-      "rewardCoins": 280,
-      "category": "Education",
-      "rating": "4.7 ★",
-      "size": "45 MB",
-      "instructions": "Install Duolingo from Google Play Store and complete verification for 280 Coins!"
+      "id": "offer_iqr",
+      "title": "iQR : CodeReader & Maker",
+      "packageName": "",
+      "description": "Ultimate QR & Barcode Scanner and Generator",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/0acc11593f134b47869f4f79ef0d36bc.png",
+      "rewardCoins": 380,
+      "category": "Tools",
+      "rating": "5 ★",
+      "size": "18.52MB",
+      "instructions": "Download Excel Manager from AppGallery and tap verify to instantly claim Reward !"
     },
     {
-      "id": "offer_cpalead",
-      "title": "Candy Crush Saga",
-      "packageName": "com.king.candycrushsaga",
-      "description": "Match candies in legendary puzzle adventure",
-      "iconUrl": "https://play-lh.googleusercontent.com/A6jM6x_B-Q1KzL98F1pCqH8_x9-r8U5b6V2vA7=w240-h480-rw",
-      "rewardCoins": 500,
-      "category": "Match 3 Game",
+      "id": "offer_excelmanager",
+      "title": "Excel Manager Editor & Viewer",
+      "packageName": "com.beyeapps.excelmanagerfileeditor",
+      "description": "Excel Manager : File Editor – The Ultimate XLSX XLS & Document Viewer Editor",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/2655ea2b190a4676be548d19eaa69f35.png",
+      "rewardCoins": 310,
+      "category": "Tools",
       "rating": "4.6 ★",
-      "size": "88 MB",
-      "instructions": "Install Candy Crush Saga from Play Store and claim 500 Coins directly!"
+      "size": "33.43MB",
+      "instructions": "Download Excel Manager from AppGallery and tap verify to instantly claim Reward !"
     },
     {
-      "id": "offer_pollfish",
-      "title": "Telegram Messenger",
-      "packageName": "org.telegram.messenger",
-      "description": "Pure instant messaging — fast and secure",
-      "iconUrl": "https://play-lh.googleusercontent.com/ZU9AnVdpqxnrsvvdR8hhEn2PJfZBp0hgn7YXXaFuRhxZphmqeqLRoNnOUio7GJAcTg=w240-h480-rw",
-      "rewardCoins": 200,
-      "category": "Communication",
+      "id": "offer_huawei",
+      "title": "HUAWEI Browser",
+      "packageName": "com.huawei.browser",
+      "description": "A secure and easy-to-use browser provided by HUAWEI.",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/a0b4722199a947e480faee3702d0e3f2.png",
+      "rewardCoins": 210,
+      "category": "Tools & browser",
       "rating": "4.5 ★",
-      "size": "40 MB",
-      "instructions": "Download Telegram and verify installation to claim 200 Coins!"
+      "size": "169.49MB",
+      "instructions": "Download Excel Manager from AppGallery and tap verify to instantly claim Reward !"
     }
   ]
 }
