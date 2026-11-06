@@ -22,31 +22,11 @@
       "notifications": [
         {
           "id": "sp_001",
-          "title": "🔥 New Movies Have Arrived!",
-          "description": "Discover the latest movies and TV shows added to StreamPlus today",
+          "title": "🔥 New Game Have Arrived!",
+          "description": "Discover the new game and enjoy the space experience today",
           "imageUrl": "https://beye-mohammed.github.io/IKOUK-STUDIO/HiPromote/Images/supernova_image.jpg",
-          "buttonText": "Watch Now",
-          "url": "https://streamplus.app/new",
-          "openUrl": true,
-          "isActive": true
-        },
-        {
-          "id": "sp_002",
-          "title": "⭐ Exclusive Content Awaits You",
-          "description": "Open the app and discover the latest additions",
-          "imageUrl": null,
-          "buttonText": "Open the App",
-          "url": null,
-          "openUrl": false,
-          "isActive": true
-        },
-        {
-          "id": "sp_003",
-          "title": "🎬 Don't Miss This Offer",
-          "description": "A curated selection of the best movies this week",
-          "imageUrl": "https://ikouk-studio.github.io/assets/streamplus/notif_weekly.jpg",
-          "buttonText": "Browse Now",
-          "url": "https://streamplus.app/weekly",
+          "buttonText": "Play",
+          "url": "https://appgallery.huawei.com/app/C118945725",
           "openUrl": true,
           "isActive": true
         }
