@@ -1256,19 +1256,13 @@
       }
     ],
     "video_tasks": [
-      {
-        "id": "petal_video",
-        "title": "PETAL ADS",
-        "type": "ad_network",
-        "network": "petal",
-        "coinsReward": 150
-      },
+    
       {
         "id": "yandex_video",
         "title": "YANDEX ADS",
         "type": "ad_network",
         "network": "yandex",
-        "coinsReward": 100
+        "coinsReward": 150
       },
       {
         "id": "yt_video_1",
