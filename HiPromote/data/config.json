@@ -1291,16 +1291,28 @@
   },
   "appOffers": [
     {
-      "id": "offer_spotify",
-      "title": "Spotify Music",
-      "packageName": "com.spotify.music",
-      "description": "Stream millions of songs and podcasts",
-      "iconUrl": "https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=w480-h960-rw",
-      "rewardCoins": 400,
-      "category": "Music & Audio",
+      "id": "offer_magicaldiary",
+      "title": "Magical Diary Paper Dress-up",
+      "packageName": "com.beyeapps.magicaldiary",
+      "description": "Dress your paper doll try new makeup, and uncover secrets at a magical academy",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/29dbf6ce4601412491c0d0f7ca49f187.png",
+      "rewardCoins": 150,
+      "category": "Dress-up",
       "rating": "4.4 ★",
-      "size": "35 MB",
-      "instructions": "Install Spotify from Google Play Store and verify installation to get +400 Coins directly to your wallet!"
+      "size": "93MB",
+      "instructions": "Install Magical Diary from AppGallery and tap verify to instantly claim Reward !"
+    },
+    {
+      "id": "offer_mushroom",
+      "title": "Mushroom Cat Run Game",
+      "packageName": "com.beyeapps.bluemushroom",
+      "description": "Run with a blue mushroom cat, dodge obstacles and collect coins in a 3D world",
+      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/7a15663bd09c44be8ac79d25341ecc33.png",
+      "rewardCoins": 400,
+      "category": "Action",
+      "rating": "4.4 ★",
+      "size": "99MB",
+      "instructions": "Install Mushroom Cat from AppGallery and tap verify to instantly claim Reward !"
     },
     {
       "id": "offer_ireader",
@@ -1329,7 +1341,7 @@
     {
       "id": "offer_iqr",
       "title": "iQR : CodeReader & Maker",
-      "packageName": "",
+      "packageName": "com.beyeapps.qrscannerandmaker",
       "description": "Ultimate QR & Barcode Scanner and Generator",
       "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/0acc11593f134b47869f4f79ef0d36bc.png",
       "rewardCoins": 380,
@@ -1351,16 +1363,16 @@
       "instructions": "Download Excel Manager from AppGallery and tap verify to instantly claim Reward !"
     },
     {
-      "id": "offer_huawei",
-      "title": "HUAWEI Browser",
-      "packageName": "com.huawei.browser",
-      "description": "A secure and easy-to-use browser provided by HUAWEI.",
-      "iconUrl": "https://appimg-dra.dbankcdn.com/application/icon144/65/a0b4722199a947e480faee3702d0e3f2.png",
-      "rewardCoins": 210,
-      "category": "Tools & browser",
-      "rating": "4.5 ★",
-      "size": "169.49MB",
-      "instructions": "Download Excel Manager from AppGallery and tap verify to instantly claim Reward !"
+      "id": "offer_mespace",
+      "title": "MeSpace: Notes, Tasks & Plans",
+      "packageName": "com.beyeapps.keepyournotes",
+      "description": "Encrypted offline notes, private journal, to-do lists & daily plans",
+      "iconUrl": "https://nsp-appgallery-agcfs-dra.obs.ap-southeast-3.myhuaweicloud.com/SG/2026112118/1795284180191-4d33fef6-5431-4ca5-8885-5f7712363334.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20261122T030112Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=NT1DSSQ7R3FSAEMCBELN%2F20261122%2Fap-southeast-3%2Fs3%2Faws4_request&X-Amz-Signature=313ceeb08ca4a6a8d9cf3bc663f6e891cbca6b994112c6b534e4add410d3f42c",
+      "rewardCoins": 350,
+      "category": "Tools",
+      "rating": "4.4 ★",
+      "size": " 30MB",
+      "instructions": "Install MeSpace App from AppGallery and tap verify to instantly claim Reward !"
     }
   ]
 }
